@@ -8,12 +8,12 @@
         "type": "tabs",
         "children": [
           {
-            "id": "6c1d1502a099d443",
+            "id": "b32143ad47645e18",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "_posts/2022-11-10.md",
+                "file": "_posts/2022-11-14.md",
                 "mode": "source",
                 "source": false
               }
@@ -86,7 +86,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "_posts/2022-11-10.md",
+                "file": "_posts/2022-11-14.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,7 +103,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "_posts/2022-11-10.md",
+                "file": "_posts/2022-11-14.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -126,7 +126,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "_posts/2022-11-10.md"
+                "file": "_posts/2022-11-14.md"
               }
             }
           }
@@ -137,17 +137,17 @@
     "width": 100,
     "collapsed": true
   },
-  "active": "6c1d1502a099d443",
+  "active": "b32143ad47645e18",
   "lastOpenFiles": [
+    "_posts/2022-11-08-daily.md",
     "_posts/2022-11-08-AIservice05.md",
+    "_posts/2022-11-12.md",
+    "_posts/2022-11-14.md",
     "_posts/2022-11-09.md",
     "_posts/2022-11-10.md",
     "_posts/2022-11-08-AIservice04.md",
-    "_posts/2022-11-08-daily.md",
     "_posts/2022-11-07-AIservice03.md",
     "_posts/2022-11-07-AIservice01.md",
-    "_posts/2022-10-28-daily.md",
-    "_posts/2022-11-07-AIservice02.md",
-    "_posts/2022-11-05-Dataviz1.md"
+    "_posts/2022-10-28-daily.md"
   ]
 }
