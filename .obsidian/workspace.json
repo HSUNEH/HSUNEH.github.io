@@ -8,31 +8,18 @@
         "type": "tabs",
         "children": [
           {
-            "id": "b32143ad47645e18",
+            "id": "f5dd4e16c4f2ac24",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "_posts/2022-11-14-daily.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "211ddc5f3677e6da",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "_posts/2022-11-09-daily.md",
+                "file": "_posts/2022-11-18-daily.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -82,7 +69,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "084c1a1a0617b971",
@@ -98,7 +86,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "_posts/2022-11-09-daily.md",
+                "file": "_posts/2022-11-18-daily.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -115,7 +103,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "_posts/2022-11-09-daily.md",
+                "file": "_posts/2022-11-18-daily.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -138,7 +126,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "_posts/2022-11-09-daily.md"
+                "file": "_posts/2022-11-18-daily.md"
               }
             }
           }
@@ -149,17 +137,17 @@
     "width": 100,
     "collapsed": true
   },
-  "active": "211ddc5f3677e6da",
+  "active": "22ab413675b3e5f9",
   "lastOpenFiles": [
-    "_posts/2022-11-10-daily.md",
-    "_posts/2022-11-12-daily.md",
+    "~/images/2022-11-18-daily/image-20221118143450628.png.md",
+    "_posts/2022-11-18-daily.md",
+    "_posts/2022-11-1-daily.md",
     "_posts/2022-11-14-daily.md",
     "_posts/2022-11-15-daily.md",
+    "_posts/2022-11-12-daily.md",
+    "_posts/2022-11-10-daily.md",
     "_posts/2022-11-08-daily.md",
     "_posts/2022-11-09-daily.md",
-    "_posts/2022-09-24-Python-7-2.md",
-    "_posts/2022-09-23-daily.md",
-    "_posts/2022-09-19-first.md",
-    "_posts/2022-09-22-Python-6.md"
+    "_posts/2022-09-24-Python-7-2.md"
   ]
 }
