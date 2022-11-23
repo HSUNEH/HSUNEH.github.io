@@ -8,12 +8,12 @@
         "type": "tabs",
         "children": [
           {
-            "id": "f5dd4e16c4f2ac24",
+            "id": "e43ecff2b16cc013",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "_posts/2022-11-18-daily.md",
+                "file": "_posts/2022-11-23-daily.md",
                 "mode": "source",
                 "source": false
               }
@@ -86,7 +86,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "_posts/2022-11-18-daily.md",
+                "file": "_posts/2022-11-23-daily.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,7 +103,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "_posts/2022-11-18-daily.md",
+                "file": "_posts/2022-11-23-daily.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -126,7 +126,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "_posts/2022-11-18-daily.md"
+                "file": "_posts/2022-11-23-daily.md"
               }
             }
           }
@@ -137,17 +137,17 @@
     "width": 100,
     "collapsed": true
   },
-  "active": "22ab413675b3e5f9",
+  "active": "e43ecff2b16cc013",
   "lastOpenFiles": [
-    "~/images/2022-11-18-daily/image-20221118143450628.png.md",
-    "_posts/2022-11-18-daily.md",
-    "_posts/2022-11-1-daily.md",
+    "_posts/2022-11-22-daily.md",
+    "_posts/2022-11-23-daily.md",
+    "_posts/2022-11-21-daily.md",
+    "_posts/2022-11-19-daily.md",
     "_posts/2022-11-14-daily.md",
-    "_posts/2022-11-15-daily.md",
     "_posts/2022-11-12-daily.md",
-    "_posts/2022-11-10-daily.md",
-    "_posts/2022-11-08-daily.md",
-    "_posts/2022-11-09-daily.md",
-    "_posts/2022-09-24-Python-7-2.md"
+    "_posts/2022-11-18-daily.md",
+    "~/images/2022-11-18-daily/image-20221118143450628.png.md",
+    "_posts/2022-11-1-daily.md",
+    "_posts/2022-11-15-daily.md"
   ]
 }
