@@ -1,0 +1,13 @@
+1:"$Sreact.fragment"
+2:I[11955,["/_next/static/chunks/0dbhjjzl8qfwv.js","/_next/static/chunks/03cn6kfouw3pb.js"],"Navbar"]
+3:I[66853,["/_next/static/chunks/0dbhjjzl8qfwv.js","/_next/static/chunks/03cn6kfouw3pb.js"],"HeroSection"]
+4:I[55160,["/_next/static/chunks/0dbhjjzl8qfwv.js","/_next/static/chunks/03cn6kfouw3pb.js"],"AboutSection"]
+5:I[90498,["/_next/static/chunks/0dbhjjzl8qfwv.js","/_next/static/chunks/03cn6kfouw3pb.js"],"TimelineSection"]
+6:I[35686,["/_next/static/chunks/0dbhjjzl8qfwv.js","/_next/static/chunks/03cn6kfouw3pb.js"],"ProjectsSection"]
+7:I[53740,["/_next/static/chunks/0dbhjjzl8qfwv.js","/_next/static/chunks/03cn6kfouw3pb.js"],"OpenSourceSection"]
+8:I[88169,["/_next/static/chunks/0dbhjjzl8qfwv.js","/_next/static/chunks/03cn6kfouw3pb.js"],"SkillsSection"]
+9:I[63446,["/_next/static/chunks/0dbhjjzl8qfwv.js","/_next/static/chunks/03cn6kfouw3pb.js"],"ContactSection"]
+a:I[97367,["/_next/static/chunks/0dbhjjzl8qfwv.js"],"OutletBoundary"]
+b:"$Sreact.suspense"
+0:{"rsc":["$","$1","c",{"children":[[["$","$L2",null,{}],["$","main",null,{"children":[["$","$L3",null,{}],["$","div",null,{"id":"career","children":["$","$L4",null,{}]}],["$","$L5",null,{}],["$","div",null,{"id":"projects","children":["$","$L6",null,{}]}],["$","div",null,{"id":"opensource","children":["$","$L7",null,{}]}],["$","div",null,{"id":"skills","children":["$","$L8",null,{}]}],["$","div",null,{"id":"contact","children":["$","$L9",null,{}]}]]}],["$","footer",null,{"className":"border-t border-border px-6 py-8 text-center font-mono text-xs text-muted-foreground","children":["$","p",null,{"children":"© 2026 황선태. Built with Next.js & Tailwind CSS."}]}]],[["$","script","script-0",{"src":"/_next/static/chunks/03cn6kfouw3pb.js","async":true}]],["$","$La",null,{"children":["$","$b",null,{"name":"Next.MetadataOutlet","children":"$@c"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"3hY5Y9Jw1o0h_vC1sdSWX"}
+c:null
