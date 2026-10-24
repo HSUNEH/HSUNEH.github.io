@@ -15,6 +15,9 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#ece9e2">
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="img/icon-512.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
@@ -39,7 +42,10 @@ a{color:inherit}
 /* 크롬 */
 .chrome{position:fixed;inset:0 0 auto 0;z-index:30;display:flex;align-items:center;padding:18px clamp(16px,3vw,40px);pointer-events:none;transition:color .4s}
 .chrome>*{pointer-events:auto}
-.chrome .who{font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase}
+.chrome .st{font:800 30px/.8 var(--display);letter-spacing:-.06em;color:#e1dcd1;text-decoration:none;padding:4px 6px 6px 0;
+  text-shadow:0 -1px 0 rgba(255,255,255,.9),1px 1px 0 #cdc6b8,2px 2px 0 #c3bcac,3px 3px 0 #b9b1a0,4px 4px 0 #ada492,5px 8px 10px rgba(60,48,30,.25)}
+.chrome .st::after{content:"";display:inline-block;width:6px;height:6px;margin-left:3px;border-radius:50%;background:var(--signal);box-shadow:0 0 8px var(--signal-glow)}
+html.night .chrome .st{color:#e1dcd1;text-shadow:0 -1px 0 rgba(255,255,255,.5),1px 1px 0 #91897a,2px 2px 0 #7d7668,3px 3px 0 #6a6357,4px 4px 0 #575146,5px 8px 10px rgba(0,0,0,.5)}
 .chrome .btn{margin-left:auto}
 .btn{display:inline-flex;align-items:center;padding:.75em 1.15em;border-radius:999px;font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;text-decoration:none;white-space:nowrap;
   background:var(--ink);color:#f3f1ec;border:1px solid var(--ink);transition:background .2s var(--ease),border-color .2s,color .2s}
@@ -145,22 +151,45 @@ html.flat .page,html.flat .hole{display:none}
 .socket.seated{animation:thunk .32s cubic-bezier(.2,.8,.3,1)}
 @keyframes thunk{0%{transform:translateZ(3px) scale(1,1)}30%{transform:translateZ(3px) scale(1.06,.93)}100%{transform:translateZ(3px) scale(1,1)}}
 .hint{position:absolute;color:var(--mute);transition:opacity .4s}
+/* WebGL 랙이 뜨면 CSS 랙은 자리만 남긴다(위치·크기를 읽는 원천) */
+canvas.gl{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+html.gl .rack,html.gl .rack-shadow{visibility:hidden}
 
 /* 랙: 책상 위에 누운 유로랙 케이스 */
 .rack{position:absolute;transform-style:preserve-3d;transform:translateZ(26px);border-radius:10px;padding:14px 12px;display:flex;gap:4px;
   background:linear-gradient(180deg,#2b2c31,#1c1d21);box-shadow:0 0 0 1px #0c0c0e}
 .rack-edge{position:absolute;left:0;right:0;top:100%;height:26px;transform-origin:50% 0;transform:rotateX(-90deg);background:linear-gradient(#26272b,#111214);border-radius:0 0 8px 8px}
+.rack-side{position:absolute;top:0;bottom:0;width:26px;transform-origin:0 50%;transform:rotateY(90deg);background:linear-gradient(90deg,#1e1f23,#0e0f11)}
 .rack-shadow{position:absolute;border-radius:24px;background:rgba(30,20,10,.42);filter:blur(28px)}
-.rail{position:absolute;left:12px;right:12px;height:10px;background:repeating-linear-gradient(90deg,#8d8d88 0 2px,#b9b9b3 2px 22px);border-radius:2px;opacity:.9}
+/* 3D 상자: 윗면(z = --d)과 앞·옆면. 랙 안 좌표에서 y+가 보는 사람 쪽, z+가 위 */
+.box{position:absolute;transform-style:preserve-3d}
+.box > i{position:absolute}
+.box .t{inset:0;transform:translateZ(var(--d))}
+.box .f{left:0;right:0;top:100%;height:var(--d);transform-origin:50% 0;transform:translateZ(var(--d)) rotateX(-90deg)}
+.box .l,.box .r{top:0;bottom:0;width:var(--d);transform-origin:0 50%;transform:translateZ(var(--d)) rotateY(90deg)}
+.box .l{left:0} .box .r{left:100%}
+.rail .t{background:repeating-linear-gradient(90deg,#8d8d88 0 2px,#c4c4be 2px 22px);border-radius:1px;box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
+.rail .f{background:#6f6f6a}
+.cheek .t{border-radius:3px;background:linear-gradient(90deg,#3c3d43,#2a2b30 60%,#232428);box-shadow:inset 0 1px 0 rgba(255,255,255,.14),inset 1px 0 0 rgba(255,255,255,.08)}
+.cheek .f{background:linear-gradient(#1c1d21,#101113)}
+.cheek .l,.cheek .r{background:linear-gradient(90deg,#17181b,#26272b)}
+/* 모듈 판: 레일 위에 2px 떠 있는 두께 있는 알루미늄 판. 판 색과 어둠은 ::before가 맡아서 부품이 평면으로 눌리지 않는다 */
 .mod{position:relative;height:100%;border-radius:4px;padding:18px 14px 16px;display:flex;flex-direction:column;align-items:center;gap:14px;flex:none;
+  transform-style:preserve-3d;transform:translateZ(2px);--dim:calc(var(--dk) * 45%)}
+.mod div{transform-style:preserve-3d}
+.mod::before{content:"";position:absolute;inset:0;border-radius:4px;
   background:
    radial-gradient(160px 120px at var(--gx,50%) var(--gy,-20%),rgba(255,255,255,.55),transparent 70%),
    repeating-linear-gradient(90deg,rgba(255,255,255,.08) 0 1px,rgba(0,0,0,.03) 1px 3px),
    linear-gradient(180deg,var(--alu-1),var(--alu-2));
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.8),inset 0 -1px 0 rgba(0,0,0,.18),0 1px 0 #0b0b0d;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8),inset 0 -1px 0 rgba(0,0,0,.18),inset 1px 0 0 rgba(255,255,255,.5),inset -1px 0 0 rgba(0,0,0,.12);
   filter:brightness(calc(1 - var(--dk)*.45))}
-.mod.on{filter:brightness(calc(1 - var(--dk)*.16))}
-.mod.dark{background:linear-gradient(180deg,#34353b,#202126);color:#e9e6df}
+.mod::after{content:"";position:absolute;left:1px;right:1px;top:100%;height:2px;transform-origin:50% 0;transform:rotateX(-90deg);background:#8b8b86;filter:brightness(calc(1 - var(--dk)*.45))}
+.mod.on{--dim:calc(var(--dk) * 16%)}
+.mod.on::before,.mod.on::after{filter:brightness(calc(1 - var(--dk)*.16))}
+.mod.dark{color:#e9e6df}
+.mod.dark::before{background:linear-gradient(180deg,#34353b,#202126);box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
+.mod.dark::after{background:#141518}
 .screw{position:absolute;width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fafaf8,#8e8e89 70%);box-shadow:0 1px 1px rgba(0,0,0,.4)}
 .screw::after{content:"";position:absolute;left:1px;right:1px;top:4px;height:1px;background:#6b6b66;transform:rotate(var(--r,30deg))}
 .mod .name{font:800 15px/1 var(--display);letter-spacing:-.01em;text-transform:uppercase;text-align:center}
@@ -168,7 +197,7 @@ html.flat .page,html.flat .hole{display:none}
 .logos{display:flex;align-items:center;gap:14px}
 .mod .name.logos{justify-content:center;--lh:17px;color:#26272b;min-height:22px}
 .mod .name.logos .logo[style*=krafton]{--lh:34px}
-.mod .name.logos:has(.logo+.logo){flex-direction:column;gap:7px;--lh:13px}
+.mod .name.logos:has(.logo+.logo){flex-direction:column;gap:8px;--lh:16px;color:#16171a}
 .mod .name.logos .logo[style*=snu]{--lh:30px}
 .info .card .logos{--lh:30px;margin:14px 0 2px;opacity:.92}
 .info .card .logos .logo[style*=krafton]{--lh:52px}
@@ -178,13 +207,19 @@ html.flat .page,html.flat .hole{display:none}
 .flatlist .fmod .logos .logo[style*=krafton]{--lh:44px}
 .mod .sub{font:500 8.5px/1.2 var(--mono);letter-spacing:.16em;color:#55554f;text-transform:uppercase;text-align:center;margin-top:-8px}
 .mod.dark .sub{color:#a7a49c}
-.led{display:inline-block;width:10px;height:10px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#5a2a1c,#2a120b);box-shadow:inset 0 1px 1px rgba(0,0,0,.6);transition:background .25s,box-shadow .25s}
+.led{display:inline-block;width:10px;height:10px;border-radius:50%;transform:translateZ(2px);background:radial-gradient(circle at 40% 35%,#5a2a1c,#2a120b);box-shadow:inset 0 1px 1px rgba(0,0,0,.6);transition:background .25s,box-shadow .25s}
 .mod.on > .led,.led.lit{background:radial-gradient(circle at 40% 35%,#ffd2bd,var(--signal) 55%,#b5340c);box-shadow:0 0 10px 3px var(--signal-glow),0 0 30px 8px rgba(255,90,31,.25)}
 .jacks{display:flex;gap:16px;margin-top:auto}
-.jack{display:block;width:26px;height:26px;border-radius:50%;background:radial-gradient(circle,#0b0b0c 0 30%,#d8d8d4 32% 48%,#8c8c87 50%,#c7c7c2 62%,#7a7a75 100%);box-shadow:0 2px 3px rgba(0,0,0,.35)}
+.jack{display:block;position:relative;width:26px;height:26px;border-radius:50%;transform-style:preserve-3d;transform:translateZ(3px);
+  background:radial-gradient(circle,#0b0b0c 0 30%,color-mix(in oklab,#d8d8d4,#000 var(--dim)) 32% 48%,color-mix(in oklab,#8c8c87,#000 var(--dim)) 50%,color-mix(in oklab,#c7c7c2,#000 var(--dim)) 62%,color-mix(in oklab,#7a7a75,#000 var(--dim)) 100%)}
+.jack::before,.jack::after{content:"";position:absolute;inset:-1px;border-radius:50%;background:color-mix(in oklab,#76766f,#000 var(--dim));transform:translateZ(-1.5px)}
+.jack::after{inset:-3px;background:color-mix(in oklab,#55554f,#000 var(--dim));transform:translateZ(-3px);box-shadow:2px 4px 5px rgba(0,0,0,.4)}
 .jack-l{font:500 8px/1 var(--mono);letter-spacing:.14em;color:#55554f;text-align:center;margin-top:5px}
-.knob{width:var(--ks,54px);height:var(--ks,54px);border-radius:50%;position:relative;cursor:ns-resize;touch-action:none;flex:none;
-  background:radial-gradient(circle at 38% 30%,#5b5d64,#1d1e22 62%);box-shadow:0 6px 10px rgba(0,0,0,.35),0 0 0 3px #b3b3ad,0 0 0 4px #8e8e88,inset 0 1px 1px rgba(255,255,255,.25)}
+.knob{width:var(--ks,54px);height:var(--ks,54px);border-radius:50%;position:relative;cursor:ns-resize;touch-action:none;flex:none;transform-style:preserve-3d;transform:translateZ(14px);
+  background:radial-gradient(circle at 38% 30%,#5b5d64,#1d1e22 62%);box-shadow:inset 0 1px 1px rgba(255,255,255,.25),inset 0 0 0 1px rgba(255,255,255,.06)}
+.knob b{position:absolute;inset:1px;border-radius:50%;transform:translateZ(calc(var(--z) * -1px));background:linear-gradient(115deg,#3d3f45,#18191c 45%,#0c0d0f)}
+.knob b.skirt{inset:-5px;background:radial-gradient(circle,#2a2b30 60%,#5c5d63 62%,#2b2c31 72%,#18191c)}
+.knob b.collar{inset:-7px;background:radial-gradient(circle,#c7c7c1 60%,#8e8e88 100%);box-shadow:3px 8px 10px rgba(0,0,0,.4)}
 .knob::before{content:"";position:absolute;inset:6%;border-radius:50%;background:conic-gradient(from 0deg,rgba(255,255,255,.08),rgba(255,255,255,0) 25%,rgba(255,255,255,.12) 50%,rgba(255,255,255,0) 75%,rgba(255,255,255,.08))}
 .knob i{position:absolute;left:50%;top:9%;width:3px;height:30%;margin-left:-1.5px;border-radius:2px;background:#f2efe8;transform-origin:50% 135%}
 .knob.gear{border-radius:0;box-shadow:none;background:radial-gradient(circle at 38% 30%,#6a6c73,#1d1e22 62%);clip-path:polygon(50% 0,61% 9%,75% 6%,80% 20%,94% 25%,91% 39%,100% 50%,91% 61%,94% 75%,80% 80%,75% 94%,61% 91%,50% 100%,39% 91%,25% 94%,20% 80%,6% 75%,9% 61%,0 50%,9% 39%,6% 25%,20% 20%,25% 6%,39% 9%)}
@@ -203,12 +238,16 @@ html.flat .page,html.flat .hole{display:none}
 .rooms{display:flex;gap:6px}
 .rooms .led{width:9px;height:9px}
 .pads{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
-.pads button{height:44px;border-radius:5px;border:0;cursor:pointer;font:500 8.5px/1 var(--mono);letter-spacing:.12em;color:#5c5a54;
-  background:linear-gradient(#f3f2ee,#d4d3ce);box-shadow:0 3px 0 #9a9a94,0 4px 8px rgba(0,0,0,.25);transition:transform .08s,box-shadow .08s,background .25s,color .25s}
-.pads button.lit{background:radial-gradient(circle at 50% 40%,#ffd9c7,#ff7a45 70%);color:#5a1a05;box-shadow:0 3px 0 #b4421a,0 0 16px rgba(255,90,31,.5)}
-.pads button:active{transform:translateY(3px);box-shadow:0 0 0 #9a9a94}
-.toggle{width:22px;height:48px;border-radius:12px;background:linear-gradient(90deg,#9b9b96,#e6e6e2,#9b9b96);position:relative;cursor:pointer;box-shadow:inset 0 0 0 2px #77776f}
-.toggle i{position:absolute;left:4px;right:4px;height:22px;border-radius:8px;background:linear-gradient(#2e2f34,#16171a);top:3px;transition:top .25s var(--ease)}
+.pads button{position:relative;height:44px;border-radius:5px;border:0;cursor:pointer;font:500 8.5px/1 var(--mono);letter-spacing:.12em;color:#5c5a54;transform-style:preserve-3d;transform:translateZ(6px);
+  background:linear-gradient(#f3f2ee,#d4d3ce);box-shadow:inset 0 1px 0 #fff;transition:transform .08s,background .25s,color .25s}
+.pads button::before,.pads button::after{content:"";position:absolute;inset:0;border-radius:5px;background:#a3a39d;transform:translateZ(-3px)}
+.pads button::after{inset:-2px;background:#3a3b40;transform:translateZ(-6px);box-shadow:2px 5px 7px rgba(0,0,0,.35)}
+.pads button.lit{background:radial-gradient(circle at 50% 40%,#ffd9c7,#ff7a45 70%);color:#5a1a05;box-shadow:0 0 16px rgba(255,90,31,.5)}
+.pads button.lit::before{background:#c4511f}
+.pads button:active{transform:translateZ(2px)}
+.toggle{width:22px;height:48px;border-radius:12px;background:linear-gradient(90deg,#9b9b96,#e6e6e2,#9b9b96);position:relative;cursor:pointer;box-shadow:inset 0 0 0 2px #77776f,2px 4px 6px rgba(0,0,0,.3);transform-style:preserve-3d;transform:translateZ(3px)}
+.toggle i{position:absolute;left:4px;right:4px;height:22px;border-radius:8px;background:linear-gradient(#2e2f34,#16171a);top:3px;transition:top .25s var(--ease);transform:translateZ(7px);box-shadow:0 0 0 1px #0c0c0e}
+.toggle i::before{content:"";position:absolute;inset:0;border-radius:8px;background:#0c0d0f;transform:translateZ(-4px)}
 .toggle.up i{top:23px}
 .bigjack .jack{width:64px;height:64px}
 
@@ -253,7 +292,7 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
 </head>
 <body>
 <div class="chrome">
-  <span class="who" data-c="id.name"></span>
+  <a class="st" href="#" id="stLogo" aria-label="Suntae Hwang, back to top">ST</a>
   <a class="btn" data-cta="cta.primary" href="#"></a>
 </div>
 <nav class="stops" aria-label="Chapters"></nav>
@@ -290,10 +329,10 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
       <div class="desk" id="desk">
         <div class="rack-shadow" id="rackShadow"></div>
         <div class="rack" id="rack">
-          <svg class="rope" aria-hidden="true" style="transform:translateZ(5px)">
+          <svg class="rope" aria-hidden="true" style="transform:translateZ(6px)">
             <path class="cable-sh" id="dcSh"/><path class="cable" id="dcBase"/><path class="cable-hi" id="dcHi"/><path class="cable-sig" id="dcSig"/>
           </svg>
-          <span class="rail" style="top:3px"></span><span class="rail" style="bottom:3px"></span><span class="rack-edge"></span>
+          <span class="rack-edge"></span><span class="rack-side" style="left:0"></span><span class="rack-side" style="left:100%"></span>
         </div>
       </div>
     </div>
@@ -306,6 +345,8 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
 <main class="flatlist" id="flatlist"></main>
 
 <script src="content.js"></script>
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
+<script type="module" src="rack-gl.js"></script>
 <script>
 (() => {
   // ── 장면 데이터: 연출의 단일 원천 ──
@@ -320,17 +361,18 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
     { id: 'intern',  vh: 110, hp: 12, logos: ['naver', 'sony'], name: 'NAVER · Sony', sub: 'Music AI', parts: ['genres', 'knobs2'] },
     { id: 'snu',     vh: 130, hp: 16, logos: ['snu'], name: 'SNU', sub: 'DOSE · ICASSP', parts: ['scope', 'mixknob'] },
     { id: 'camp',    vh: 90,  hp: 8,  logos: ['naver'], name: 'Boostcamp', sub: 'Boostcamp AI Tech', parts: ['knobs2'] },
-    { id: 'out',     vh: 160, hp: 12, name: 'Out', sub: 'Email', parts: ['bigjack'], dark: true },
-    { id: 'contact', vh: 260, page: true }, // OUT 잭 구멍으로 들어가면 새 페이지가 열린다
+    { id: 'out',     vh: 110, hp: 12, name: 'Out', sub: 'Email', parts: ['bigjack'], dark: true, pass: true }, // 글 없이 지나간다. 카메라가 OUT 잭 위로 내려간다
+    { id: 'contact', vh: 200, page: true }, // OUT 잭 구멍으로 들어가면 새 페이지가 열린다
   ];
   const T = { plug: [.14, .30], tilt: [.18, .70], look: [.18, .54], cam: [0, .45], sig: [.2, .5], on: .5, viz: [.5, .7], stop: .82 };
-  const CABLE_LIFT = 31;
+  const CABLE_LIFT = 32;
   // 벽 소켓: 아래 끝이 책상 케이블 시작점(이음새)을 덮고, 플러그는 위에서 SEAT만큼 박힌다. 플러그 몸통 60px, 금속 팁 18px
   const SOCKET = { h: 46, below: 8, seat: 24, hover: 22 };
   const OUT = SCENES.findIndex(s => s.id === 'out'), PAGE = SCENES.findIndex(s => s.page);
-  // 잭 다이브: 카메라가 OUT 잭 위로 내려가며 다가가고(dive), 구멍의 검은 원이 화면을 덮은 뒤(hole), 페이지가 열린다(page)
-  const DIVE = { dive: [0, .4], hole: [.4, .56], page: [.52, .68] };
-  const CAM = { workTheta: 63, workD: .8, endTheta: 76 };
+  // 잭 다이브: OUT 장면에서 카메라가 마지막 모듈에서 OUT 잭 위로 내려가며 다가가고(dive),
+  // 다음 장면에서 구멍의 검은 원이 화면을 덮은 뒤(hole) 페이지가 열린다(page)
+  const DIVE = { dive: [0, .95], hole: [0, .24], page: [.2, .44] };
+  const CAM = { workTheta: 63, workD: .8 };
 
   const C = window.CONTENT || {};
   const md = s => (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
@@ -351,6 +393,7 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
     el.innerHTML = h;
   });
 
+  document.getElementById('stLogo').addEventListener('click', e => { e.preventDefault(); scrollTo({ top: 0, behavior: mqR.matches ? 'auto' : 'smooth' }); });
   // 입체 이름은 글자마다 눌린다
   const markEl = document.getElementById('mark');
   markEl.innerHTML = [...markEl.textContent].map(ch => ch === ' ' ? ' ' : `<span>${ch}</span>`).join('');
@@ -358,7 +401,8 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
 
   // ── 모듈 하드웨어 ──
   const rack = document.getElementById('rack');
-  const knobHTML = (cls = '', ks = 54) => `<div class="knob ${cls}" style="--ks:${ks}px"><i></i></div>`;
+  // 노브 몸통: 캡 밑으로 2px마다 원판을 쌓고, 바닥에 치마와 패널 칼라를 둔다
+  const knobHTML = (cls = '', ks = 54) => `<div class="knob ${cls}" style="--ks:${ks}px">${[2, 4, 6, 8, 10].map(z => `<b style="--z:${z}"></b>`).join('')}<b class="skirt" style="--z:11"></b><b class="collar" style="--z:14"></b><i></i></div>`;
   const PART = {
     toggle: () => `<div class="toggle" role="switch" aria-checked="false"><i></i></div>`,
     scope: () => `<div class="screen" style="height:120px"><canvas></canvas></div>`,
@@ -385,22 +429,21 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
     rack.appendChild(el);
     return { s, el, i };
   });
+  // 레일(판 밑 위아래)과 옆판(양 끝): 랙 면에서 솟은 상자
+  const boxEl = (cls, d, css) => { const b = document.createElement('div'); b.className = 'box ' + cls; b.style.cssText = css + `;--d:${d}px`; b.innerHTML = '<i class="t"></i><i class="f"></i><i class="l"></i><i class="r"></i>'; rack.appendChild(b); return b; };
+  boxEl('rail', 2, 'left:14px;right:14px;top:4px;height:9px'); boxEl('rail', 2, 'left:14px;right:14px;bottom:4px;height:9px');
+  boxEl('cheek', 22, 'left:-6px;width:16px;top:-2px;bottom:-2px'); boxEl('cheek', 22, 'right:-6px;width:16px;top:-2px;bottom:-2px');
 
   // 왼쪽 글 카드
   const awardsHTML = (imgs = false) => `<div class="awards"><span class="label">${C['ch.awards']}</span>${imgs ? '<div class="imgs"><img src="img/award-codex.jpg" alt="" loading="lazy"><img src="img/award-nexon.jpg" alt="" loading="lazy"></div>' : ''}<ul>${['award.codex', 'award.nexon'].map(id => `<li>${md(C[id])}</li>`).join('')}</ul></div>`;
   const linkHTML = id => { if (!C['link.' + id]) return ''; const c = cta('link.' + id); return `<div class="ctas"><a class="btn ghost" href="${c.url}" target="_blank" rel="noopener">${c.label} ↗</a></div>`; };
   const info = document.getElementById('info');
   const cards = SCENES.map((s, i) => {
-    if (s.id === 'in' || s.page) return null;
+    if (s.id === 'in' || s.page || s.pass) return null;
     const el = document.createElement('div'); el.className = 'card pre';
     const n = String(i).padStart(2, '0');
-    if (s.id === 'out') {
-      const c = cta('cta.primary');
-      el.innerHTML = `<span class="label">${n} · ${C['ch.out']}</span><h2>${md(C['cta.final']).split(' / ').join('<br>')}</h2>`;
-    } else {
-      const [t, b] = s.multi ? ['', C['mod.' + s.id]] : splitTitle(C['mod.' + s.id]);
-      el.innerHTML = `<span class="label">${n} · ${C['ch.' + s.id] || ''}</span>${s.logos ? `<div class="logos" aria-hidden="true">${logoHTML(s.logos)}</div>` : ''}<h2>${md(t)}</h2>${bodyHTML(b)}${linkHTML(s.id)}`;
-    }
+    const [t, b] = s.multi ? ['', C['mod.' + s.id]] : splitTitle(C['mod.' + s.id]);
+    el.innerHTML = `<span class="label">${n} · ${C['ch.' + s.id] || ''}</span>${s.logos ? `<div class="logos" aria-hidden="true">${logoHTML(s.logos)}</div>` : ''}<h2>${md(t)}</h2>${bodyHTML(b)}${linkHTML(s.id)}`;
     info.appendChild(el); return el;
   });
 
@@ -436,7 +479,8 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
   // 정거장 점
   const stops = document.querySelector('.stops');
   SCENES.forEach((s, i) => {
-    const b = document.createElement('button'); b.setAttribute('aria-label', C['ch.' + s.id] || s.id);
+    if (s.pass) return;
+    const b = document.createElement('button'); b.dataset.i = i; b.setAttribute('aria-label', C['ch.' + s.id] || s.id);
     b.addEventListener('click', () => scrollTo({ top: stopY(i), behavior: 'smooth' }));
     stops.appendChild(b);
   });
@@ -467,7 +511,7 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
     letters.forEach(l => { l.c = [mark.offsetLeft + l.el.offsetLeft + l.el.offsetWidth / 2, mark.offsetTop + l.el.offsetTop + l.el.offsetHeight / 2]; }); markR = fs * .5;
     // 케이블: 고정점은 화면 위 밖, 끝은 벽 밑 모서리를 지나 책상으로 이어진다
     anchor = [wx(W * .26), wy(-H - 80)];
-    // 책상 케이블은 랙 면(26px)과 그 위 5px에 떠 있어서, 벽 케이블도 모서리 31px 위에서 넘겨준다
+    // 책상 케이블은 랙 면(26px)과 그 위 6px(판 2 + 잭 3 + 1)에 떠 있어서, 벽 케이블도 모서리 32px 위에서 넘겨준다
     edgePt = [wx(W * .26), wy(-CABLE_LIFT)];
     sockTop = edgePt[1] + SOCKET.below - SOCKET.h;
     Object.assign(socketEl.style, { left: edgePt[0] + 'px', top: sockTop + 'px', height: SOCKET.h + 'px' });
@@ -494,6 +538,7 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
     SCENES.forEach(s => { starts.push(total); total += s.vh / 100 * H; });
     scroller.style.height = (total + H) + 'px';
     layoutDeskCable(); layoutPatches(); initRope();
+    if (window.rackGL) rackGL.layout({ rack, mods, rackX, rackZ, rackW, rackH, edgeX: W * .26, lift: CABLE_LIFT });
     ready = true;
     // 딥링크: ?scene=<id>&u=<0..1> 이면 그 장면의 그 진행도로 바로 간다
     if (!deepDone) { deepDone = true; const q = new URLSearchParams(location.search), si = SCENES.findIndex(s => s.id === q.get('scene'));
@@ -512,9 +557,8 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
   const heroCam = () => ({ th: 0, x: 0, y: -H / 2, z: 0, d: P });
   // 모듈 정거장: 모듈을 화면 오른쪽에 두고 왼쪽에 글 칼럼을 남긴다
   const modCam = i => { const c = modC[i] || [0, 0, 0]; return { th: CAM.workTheta, x: c[0] - W * .16, y: c[1], z: c[2] + 30, d: P * CAM.workD }; };
-  const endCam = () => { const cx = rackX + rackW / 2, d = Math.max(P * .9, rackW * P / (W * .6)); return { th: CAM.endTheta, x: cx - W * .14 * d / P, y: -26, z: rackZ + rackH / 2, d }; };
   // OUT 잭 바로 위에서 수직으로 내려다본다. d가 작을수록 가깝다
-  const jackCam = () => ({ th: 90, x: outJack[0], y: -26, z: outJack[1], d: P * .2 });
+  const jackCam = () => ({ th: 90, x: outJack[0], y: -31, z: outJack[1], d: P * .2 });
   const mixCam = (a, b, t, tl = t) => ({ th: lerp(a.th, b.th, t), x: lerp(a.x, b.x, tl), y: lerp(a.y, b.y, tl), z: lerp(a.z, b.z, tl), d: lerp(a.d, b.d, t) });
 
   // ── 벽의 케이블: verlet. 첫 진입에 옆에서 놓은 것처럼 호를 그리며 떨어져 흔들리다 멈춘다 ──
@@ -583,7 +627,7 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
   let patchSvg = null, patches = [];
   function layoutPatches() {
     if (patchSvg) patchSvg.remove(); patches = [];
-    patchSvg = document.createElementNS(SVGNS, 'svg'); patchSvg.setAttribute('class', 'rope'); patchSvg.style.transform = 'translateZ(4px)';
+    patchSvg = document.createElementNS(SVGNS, 'svg'); patchSvg.setAttribute('class', 'rope'); patchSvg.style.transform = 'translateZ(6px)';
     rack.appendChild(patchSvg);
     for (let i = 0; i < mods.length - 1; i++) {
       const [ox, oy] = relPos(mods[i].el.querySelector('.jack.out'), rack), [ix, iy] = relPos(mods[i + 1].el.querySelector('.jack.in'), rack);
@@ -616,6 +660,11 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
     paintKnob(k);
   });
   const doseKnob = knobs.find(k => k.el.classList.contains('mix'));
+  // WebGL 랙(rack-gl.js)과 주고받는 창구
+  window.RACK = {
+    knobs, kick: () => kick(), relayout: () => layout(), camTh: () => camNow.th, flat,
+    setKnob: (k, v) => { k.v = clamp(v, 0, 1); k.touched = true; paintKnob(k); if (k === doseKnob) drawScope(k.v); kick(); },
+  };
   document.querySelectorAll('.toggle').forEach(t => t.addEventListener('click', () => { t.dataset.touched = 1; t.classList.toggle('up'); t.setAttribute('aria-checked', t.classList.contains('up')); }));
   document.querySelectorAll('.pads button').forEach(b => b.addEventListener('click', () => { b.dataset.touched = 1; b.classList.toggle('lit'); }));
 
@@ -623,6 +672,7 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
   const cv = mods.find(m => m.s.id === 'snu').el.querySelector('canvas'), cx = cv.getContext('2d');
   const hash = n => { const x = Math.sin(n * 127.1) * 43758.5453; return x - Math.floor(x); };
   function drawScope(k) {
+    cv.dataset.ver = (+cv.dataset.ver || 0) + 1;
     const w = cv.width = cv.clientWidth * 2, h = cv.height = cv.clientHeight * 2, mid = h / 2;
     cx.clearRect(0, 0, w, h);
     cx.strokeStyle = 'rgba(120,200,170,.12)'; cx.lineWidth = 1;
@@ -687,7 +737,7 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
   function snap() {
     if (flat()) return;
     const y = scrollY;
-    const ahead = SCENES.map((_, i) => stopY(i)).filter(s => lastDir > 0 ? s >= y : s <= y).sort((a, b) => Math.abs(a - y) - Math.abs(b - y))[0];
+    const ahead = SCENES.map((s, i) => s.pass ? -1 : stopY(i)).filter(s => s >= 0).filter(s => lastDir > 0 ? s >= y : s <= y).sort((a, b) => Math.abs(a - y) - Math.abs(b - y))[0];
     if (ahead != null && Math.abs(ahead - y) < H * .35 && Math.abs(ahead - y) > 4) scrollTo({ top: ahead, behavior: 'smooth' });
   }
 
@@ -710,8 +760,8 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
     let cam;
     if (si === 0) cam = mixCam(heroCam(), modCam(0), sm(T.tilt[0], T.tilt[1], u), sm(T.look[0], T.look[1], u));
     else if (si === 1) cam = modCam(0);
-    else if (si === OUT) cam = mixCam(mixCam(modCam(si - 2), modCam(si - 1), sm(T.cam[0], T.cam[1], u)), endCam(), sm(.5, .95, u));
-    else if (si === PAGE) { const k = sm(DIVE.dive[0], DIVE.dive[1], u); const e = k * k * (3 - 2 * k); cam = mixCam(endCam(), jackCam(), e, e); } // 잭이 화면 한가운데 오도록 위치와 각도를 같은 이징으로 맞춘다
+    else if (si === OUT) { const k = sm(DIVE.dive[0], DIVE.dive[1], u), e = k * k * (3 - 2 * k); cam = mixCam(modCam(si - 2), jackCam(), e, e); } // 잭이 화면 한가운데 오도록 위치와 각도를 같은 이징으로 맞춘다
+    else if (si >= PAGE) cam = jackCam();
     else cam = mixCam(modCam(si - 2), modCam(si - 1), sm(T.cam[0], T.cam[1], u));
     camNow = cam; setCamera(cam);
 
@@ -721,8 +771,8 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
     doc.classList.toggle('night', dk > .45);
     doc.style.setProperty('--bg', `color-mix(in oklab, #d9d4c9, #141416 ${(dk * 90).toFixed(1)}%)`);
     doc.style.background = `color-mix(in oklab, #ece9e2, #141416 ${(dk * 90).toFixed(1)}%)`;
-    scrim.classList.toggle('show', si > 0);
-    mark.style.opacity = si === 0 ? (1 - sm(.72, .96, u)).toFixed(3) : si === OUT ? sm(.55, .95, u).toFixed(3) : si === PAGE ? (1 - sm(0, .2, u)).toFixed(3) : 0;
+    scrim.classList.toggle('show', si > 0 && si < OUT);
+    mark.style.opacity = si === 0 ? (1 - sm(.72, .96, u)).toFixed(3) : 0;
 
     // 벽 케이블과 신호
     const plugK = si > 0 ? 1 : sm(T.plug[0], T.plug[1], u);
@@ -748,24 +798,28 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
     patches.forEach((p, i) => { const f = si > i + 2 ? 1 : si === i + 2 ? sm(T.sig[0], T.sig[1], u) : 0; p.g[3].style.strokeDashoffset = (p.L * (1 - f)).toFixed(1); });
     const c = modC[curMod];
     if (c) { desk.style.setProperty('--spot-x', (WALLW / 2 + c[0]) + 'px'); desk.style.setProperty('--spot-y', (rackZ + rackH * .55) + 'px'); }
+    if (window.rackGL) rackGL.frame({ W, H, P, cam, dk, spot: c ? [c[0], rackZ + rackH * .55] : [0, 0],
+      patch: patches.map((_, i) => si > i + 2 ? 1 : si === i + 2 ? sm(T.sig[0], T.sig[1], u) : 0),
+      deskDraw: dcDraw, deskSig: si > 0 ? 1 : sm(.46, .7, u) });
 
     // 글 카드
     cards.forEach((el, i) => {
       if (!el) return;
-      const show = (i === si && (i === OUT ? u > .02 : i === 1 || u > .3)) || (i === 1 && si === 0 && u > .8) || (i === OUT && si === PAGE && u < .12);
+      const show = (i === si && (i === 1 || u > .3)) || (i === 1 && si === 0 && u > .8);
       el.classList.toggle('show', show); el.classList.toggle('pre', !show); el.classList.toggle('day', dk < .3);
     });
-    stops.querySelectorAll('button').forEach((b, i) => b.classList.toggle('on', i === si));
+    stops.querySelectorAll('button').forEach(b => b.classList.toggle('on', +b.dataset.i === si));
 
     // 잭 구멍 → 새 페이지. 원의 반지름은 잭이 화면에서 보이는 크기에서 시작해 화면 대각선까지 커진다
     const pu = si === PAGE ? u : si > PAGE ? 1 : 0;
     const hk = sm(DIVE.hole[0], DIVE.hole[1], pu), pk = sm(DIVE.page[0], DIVE.page[1], pu);
     // 원은 잭 안쪽 검은 구멍이 지금 화면에 보이는 자리와 크기에서 시작한다(투영된 rect라 카메라와 어긋나지 않는다)
     if (hk > 0) {
-      const jr = outJackEl.getBoundingClientRect(), r0 = jr.width * .212;
-      holeEl.style.setProperty('--cx', (jr.left + jr.width / 2).toFixed(1) + 'px');
-      holeEl.style.setProperty('--cy', (jr.top + jr.height / 2).toFixed(1) + 'px');
-      holeEl.style.setProperty('--r', lerp(r0, Math.hypot(W, H), hk * hk).toFixed(1) + 'px');
+      let js = window.rackGL && rackGL.jackScreen();
+      if (!js) { const jr = outJackEl.getBoundingClientRect(); js = { x: jr.left + jr.width / 2, y: jr.top + jr.height / 2, r: jr.width * .212 }; }
+      holeEl.style.setProperty('--cx', js.x.toFixed(1) + 'px');
+      holeEl.style.setProperty('--cy', js.y.toFixed(1) + 'px');
+      holeEl.style.setProperty('--r', lerp(js.r, Math.hypot(W, H), hk * hk).toFixed(1) + 'px');
     }
     holeEl.style.opacity = hk > 0 ? 1 : 0;
     pageEl.style.setProperty('--k', pk.toFixed(3));
@@ -783,7 +837,8 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
           const n = v.querySelector('.v'), a = +n.dataset.from, b = +n.dataset.to, val = a + (b - a) * k;
           n.textContent = Math.round(val) + n.dataset.unit;
           const norm = n.dataset.unit ? (val - 40) / 60 : (val - 1) / 4;
-          v.querySelector('i').style.transform = `rotate(${(-50 + clamp(norm, 0, 1) * 100).toFixed(1)}deg)`;
+          const deg = (-50 + clamp(norm, 0, 1) * 100).toFixed(1); v.dataset.a = deg;
+          v.querySelector('i').style.transform = `rotate(${deg}deg)`;
         });
         const hot = k > .6 ? [3] : on ? [0, 2, 3, 5] : [];
         el.querySelectorAll('.rooms .led').forEach((r, j) => r.classList.toggle('lit', hot.includes(j)));
