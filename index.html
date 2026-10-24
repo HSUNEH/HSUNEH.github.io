@@ -137,10 +137,13 @@ html.flat .page,html.flat .hole{display:none}
 .pg-prints{display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,2vw,28px);margin-top:16px}
 .page .print{position:relative;transform:rotate(var(--r))}
 .page .print:nth-child(2){margin-top:40px}
-.wallclip{position:absolute;width:30px;height:24px;margin:-15px 0 0 -15px;border-radius:6px;transform:translateZ(3px);
-  background:linear-gradient(180deg,#3a3b40,#1f2024);box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 3px 6px rgba(0,0,0,.3)}
-.wallclip::before,.wallclip::after{content:"";position:absolute;top:9px;width:5px;height:5px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d9dadd,#6b6d72)}
-.wallclip::before{left:4px}.wallclip::after{right:4px}
+.socket{position:absolute;width:40px;margin-left:-20px;border-radius:8px 8px 6px 6px;transform:translateZ(3px);
+  background:linear-gradient(90deg,#1b1c20,#3a3b41 45%,#202125);box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 6px 10px -2px rgba(0,0,0,.35)}
+.socket::before{content:"";position:absolute;left:8px;right:8px;top:-3px;height:6px;border-radius:3px;background:#0a0a0b;box-shadow:inset 0 1px 2px #000}
+.socket b{position:absolute;left:50%;bottom:9px;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:#3b2a24;transition:background .15s,box-shadow .15s}
+.socket.seated b{background:var(--signal);box-shadow:0 0 8px 2px var(--signal-glow)}
+.socket.seated{animation:thunk .32s cubic-bezier(.2,.8,.3,1)}
+@keyframes thunk{0%{transform:translateZ(3px) scale(1,1)}30%{transform:translateZ(3px) scale(1.06,.93)}100%{transform:translateZ(3px) scale(1,1)}}
 .hint{position:absolute;color:var(--mute);transition:opacity .4s}
 
 /* 랙: 책상 위에 누운 유로랙 케이스 */
@@ -280,7 +283,7 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
         <svg class="rope" aria-hidden="true">
           <path class="cable-sh" id="ropeSh"/><path class="cable" id="ropeBase"/><path class="cable-hi" id="ropeHi"/><path class="cable-sig" id="ropeSig"/>
         </svg>
-        <i class="wallclip" id="wallclip" aria-hidden="true"></i>
+        <i class="socket" id="socket" aria-hidden="true"><b></b></i>
         <span class="hint label" id="hint" data-c="hint.drag"></span>
         <div class="plug" id="plug" role="button" tabindex="0" aria-label="Plug in"></div>
       </div>
@@ -322,6 +325,8 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
   ];
   const T = { plug: [.14, .30], tilt: [.18, .70], look: [.18, .54], cam: [0, .45], sig: [.2, .5], on: .5, viz: [.5, .7], stop: .82 };
   const CABLE_LIFT = 31;
+  // 벽 소켓: 아래 끝이 책상 케이블 시작점(이음새)을 덮고, 플러그는 위에서 SEAT만큼 박힌다. 플러그 몸통 60px, 금속 팁 18px
+  const SOCKET = { h: 46, below: 8, seat: 24, hover: 22 };
   const OUT = SCENES.findIndex(s => s.id === 'out'), PAGE = SCENES.findIndex(s => s.page);
   // 잭 다이브: 카메라가 OUT 잭 위로 내려가며 다가가고(dive), 구멍의 검은 원이 화면을 덮은 뒤(hole), 페이지가 열린다(page)
   const DIVE = { dive: [0, .4], hole: [.4, .56], page: [.52, .68] };
@@ -441,7 +446,7 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
   const stage = document.getElementById('stage'), world = document.getElementById('world'), scroller = document.getElementById('scroller');
   const wall = document.getElementById('wall'), desk = document.getElementById('desk'), hero = document.getElementById('hero'), mark = document.getElementById('mark');
   const badge = document.getElementById('badge'), badgeCard = document.getElementById('badgeCard'), scrim = document.getElementById('scrim'), plugEl = document.getElementById('plug'), hint = document.getElementById('hint'), rackShadow = document.getElementById('rackShadow');
-  let deepDone = false, outJack = [0, 0], outJackEl = null, markR = 100, markE = 0, badgeA = [0, 0], badgeInit = false, bA = 0, bW = 0, bP = 0, bPW = 0, bDrag = null, badgeE = 1;
+  let sockTop = 0, plugPt = [0, 0], seatT = -1, socketEl = document.getElementById('socket'), deepDone = false, outJack = [0, 0], outJackEl = null, markR = 100, markE = 0, badgeA = [0, 0], badgeInit = false, bA = 0, bW = 0, bP = 0, bPW = 0, bDrag = null, badgeE = 1;
   let W, H, P, WALLW, WALLH, DESKD, rackX, rackZ, rackW, rackH, starts = [], total = 0, modC = [], anchor = [0, 0], edgePt = [0, 0], inJackDesk = [0, 0], ready = false;
 
   function layout() {
@@ -464,14 +469,16 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
     anchor = [wx(W * .26), wy(-H - 80)];
     // 책상 케이블은 랙 면(26px)과 그 위 5px에 떠 있어서, 벽 케이블도 모서리 31px 위에서 넘겨준다
     edgePt = [wx(W * .26), wy(-CABLE_LIFT)];
-    Object.assign(document.getElementById('wallclip').style, { left: edgePt[0] + 'px', top: (edgePt[1] - 4) + 'px' }); // 두 면의 이음새를 벽 클립이 덮는다
+    sockTop = edgePt[1] + SOCKET.below - SOCKET.h;
+    Object.assign(socketEl.style, { left: edgePt[0] + 'px', top: sockTop + 'px', height: SOCKET.h + 'px' });
+    plugPt = [edgePt[0], sockTop + SOCKET.seat - 60]; // 다 꽂혔을 때 플러그 윗면(줄 끝) 자리
     // 사원증: 화면 위 밖에 매단 줄 끝에서 흔들린다. 줄은 첫 화면 글과 케이블 사이로 내려온다
     const cw = Math.round(clamp(W * .14, 170, 220)), ls = Math.round(H * .13 + 60);
     badgeA = [wx(W * .08), wy(-H - 60)];
     Object.assign(badge.style, { left: badgeA[0] + 'px', top: badgeA[1] + 'px' });
     badge.style.setProperty('--cw', cw + 'px'); badge.style.setProperty('--ls', ls + 'px');
     if (!badgeInit) { bA = .42; bW = 0; bP = .42; bPW = 0; badgeInit = true; }
-    Object.assign(hint.style, { left: wx(W * .26 + 36) + 'px', top: wy(-H * .30) + 'px' });
+    Object.assign(hint.style, { left: wx(W * .26 - 44) + 'px', top: wy(-H * .30) + 'px', transform: 'translateX(-100%)' }); // 케이블 왼쪽에 둬서 흔들리는 플러그와 겹치지 않는다
     // 랙: 책상 위, 모서리에서 조금 떨어진 곳
     rackH = Math.round(Math.min(440, H * .5));
     rackX = W * .26 + 150; rackZ = 170;
@@ -525,13 +532,15 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
     const end = rp[N - 1], pinned = plugK > .985;
     // 첫 3초는 감쇠를 약하게 시작해 평소 값으로. 꽂힌 뒤에는 출렁임을 빨리 죽여 모서리 앞에서 꺾이지 않게 한다
     const damp = pinned ? .86 : lerp(.955, .988, clamp(introT / 3, 0, 1));
-    const dist = Math.hypot(edgePt[0] - anchor[0], edgePt[1] - anchor[1]);
+    // 꽂히는 끝: 마지막 15%에서 소켓 위(hover)로 내려와 섰다가 SEAT 깊이까지 밀려 들어간다
+    const push = sm(.85, 1, plugK), tgt = [plugPt[0], plugPt[1] - SOCKET.hover * (1 - push)];
+    const dist = Math.hypot(tgt[0] - anchor[0], tgt[1] - anchor[1]);
     const seg = lerp(restLen(), dist * .998, sm(.3, 1, plugK)) / (N - 1);
     for (let k = 1; k < N; k++) { const p = rp[k], vx = (p.x - p.px) * damp, vy = (p.y - p.py) * damp; p.px = p.x; p.py = p.y; p.x += vx; p.y += vy + 1500 * dt * dt; }
     if (!drag && mouse && !pinned) { const dx = mouse[0] - end.x, dy = mouse[1] - end.y, dd = Math.hypot(dx, dy); if (dd < 120 && dd > 1) { end.x += dx / dd * .5; end.y += dy / dd * .5; } }
     if (!touched && !hintDone && introT > 3.6 && plugK === 0) { end.px -= 10; hintDone = true; } // 보이지 않는 손
     if (drag) { end.x = drag[0]; end.y = drag[1]; }
-    else if (plugK > 0) { const k = pinned ? 1 : .03 + .2 * plugK; end.x = lerp(end.x, edgePt[0], k); end.y = lerp(end.y, edgePt[1], k); }
+    else if (plugK > 0) { const k = pinned || push > 0 ? 1 : .03 + .2 * plugK; end.x = lerp(end.x, tgt[0], k); end.y = lerp(end.y, tgt[1], k); }
     rp[0].x = anchor[0]; rp[0].y = anchor[1];
     for (let it = 0; it < 20; it++) for (let k = 0; k < N - 1; k++) {
       const a = rp[k], b = rp[k + 1], dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy) || 1;
@@ -540,7 +549,7 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
     }
     // 꽂힌 뒤에는 줄을 고정점과 모서리를 잇는 직선으로 펴서, 책상 케이블과 곧게 이어지게 한다
     if (pinned) for (let k = 1; k < N - 1; k++) {
-      const t = k / (N - 1), p = rp[k], tx = lerp(anchor[0], edgePt[0], t), ty = lerp(anchor[1], edgePt[1], t);
+      const t = k / (N - 1), p = rp[k], tx = lerp(anchor[0], tgt[0], t), ty = lerp(anchor[1], tgt[1], t);
       p.x = lerp(p.x, tx, .5); p.y = lerp(p.y, ty, .5);
       if (Math.abs(p.x - tx) + Math.abs(p.y - ty) < .3) { p.x = p.px = tx; p.y = p.py = ty; }
     }
@@ -549,9 +558,12 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
     d += `L${end.x.toFixed(1)} ${end.y.toFixed(1)}`;
     ropeEls.forEach(e => e.setAttribute('d', d));
     ropeEls[0].setAttribute('transform', 'translate(16 20)');
-    const prev = rp[N - 3], ang = Math.atan2(end.y - prev.y, end.x - prev.x) * 180 / Math.PI - 90;
-    plugEl.style.transform = `translate(${end.x.toFixed(1)}px,${end.y.toFixed(1)}px) rotate(${ang.toFixed(1)}deg)`;
-    plugEl.style.opacity = pinned ? 0 : 1;
+    // 소켓에 가까워지면 똑바로 선다. 다 박히는 순간 딸깍: 소켓이 눌렸다 돌아오고 LED가 켜지며 플러그가 한 번 튄다
+    const prev = rp[N - 3], ang = lerp(Math.atan2(end.y - prev.y, end.x - prev.x) * 180 / Math.PI - 90, 0, drag ? 0 : sm(.6, .9, plugK));
+    if (pinned && !drag) { if (seatT < 0) { seatT = 0; socketEl.classList.add('seated'); } else seatT += dt; }
+    else if (seatT >= 0) { seatT = -1; socketEl.classList.remove('seated'); }
+    const bounce = seatT >= 0 ? -3 * Math.exp(-seatT * 16) * Math.cos(seatT * 50) : 0;
+    plugEl.style.transform = `translate(${end.x.toFixed(1)}px,${(end.y + bounce).toFixed(1)}px) rotate(${ang.toFixed(1)}deg)`;
     let e = 0; for (let k = 1; k < N; k++) e += Math.abs(rp[k].x - rp[k].px) + Math.abs(rp[k].y - rp[k].py);
     return e;
   }
@@ -686,7 +698,7 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
     shown += (target - shown) * (1 - Math.exp(-dt * 1000 / 45));
     if (Math.abs(target - shown) < .3) shown = target;
     render(shown, dt);
-    if (shown !== target || ropeE > .02 || drag || introT < 4.2 || badgeE > .003 || bDrag || markE > .004) raf = requestAnimationFrame(frame);
+    if (shown !== target || ropeE > .02 || drag || introT < 4.2 || badgeE > .003 || bDrag || markE > .004 || (seatT >= 0 && seatT < .5)) raf = requestAnimationFrame(frame);
   }
 
   function render(y, dt) {
