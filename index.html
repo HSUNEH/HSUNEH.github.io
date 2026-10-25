@@ -119,6 +119,8 @@ svg.rope{position:absolute;left:0;top:0;width:1px;height:1px;overflow:visible;po
   box-shadow:0 0 0 1px rgba(0,0,0,.05),6px 12px 18px -6px rgba(0,0,0,.45)}
 .print img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;filter:saturate(.9) contrast(1.02)}
 .print figcaption{font:500 10px/1.35 var(--mono);letter-spacing:.06em;color:#5f5d57;padding:9px 2px 11px}
+.print figcaption .desc,.flatlist .awards .desc{display:block;margin-top:6px;letter-spacing:.02em;text-transform:none}
+.print figcaption .demo,.flatlist .awards .demo{display:inline-block;margin-top:6px;color:var(--signal);text-decoration:none;font-weight:700}
 .print figcaption strong{display:block;font:700 13px/1.2 var(--display);letter-spacing:-.01em;color:var(--ink);margin-bottom:2px}
 .info .awards{margin-top:26px;padding-top:16px;border-top:1px solid rgba(233,230,223,.18)}
 .info .awards .label,.flatlist .awards .label{display:block;margin-bottom:10px}
@@ -138,7 +140,7 @@ html.flat .page,html.flat .hole{display:none}
 .page h2.kicker{text-transform:uppercase;font:800 clamp(36px,4.3vw,84px)/.9 var(--display);letter-spacing:-.04em;margin:.28em 0 .32em;white-space:nowrap}
 .page .final{font-size:clamp(17px,1.35vw,21px);color:#bdb9b0;margin:0 0 22px}
 .page .mail{display:inline-block;color:#fff;font:700 clamp(26px,2.6vw,44px)/1.1 var(--display);letter-spacing:-.02em;text-decoration:none;border-bottom:3px solid var(--signal)}
-.page .ctas{margin-top:22px}
+.page .ctas{margin-top:22px;display:flex;gap:10px;flex-wrap:wrap}
 .page .btn.ghost{color:#ecE9e2}
 .pg-prints{display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,2vw,28px);margin-top:16px}
 .page .print{position:relative;transform:rotate(var(--r))}
@@ -309,6 +311,7 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
           <div class="ctas">
             <a class="btn" data-cta="cta.primary" href="#"></a>
             <a class="btn ghost" data-cta="cta.secondary" href="#"></a>
+            <a class="btn ghost" data-cta="cta.linkedin" href="#"></a>
           </div>
         </section>
         <div class="badge" id="badge" aria-hidden="true">
@@ -435,7 +438,9 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
   boxEl('cheek', 22, 'left:-6px;width:16px;top:-2px;bottom:-2px'); boxEl('cheek', 22, 'right:-6px;width:16px;top:-2px;bottom:-2px');
 
   // 왼쪽 글 카드
-  const awardsHTML = (imgs = false) => `<div class="awards"><span class="label">${C['ch.awards']}</span>${imgs ? '<div class="imgs"><img src="img/award-codex.jpg" alt="" loading="lazy"><img src="img/award-nexon.jpg" alt="" loading="lazy"></div>' : ''}<ul>${['award.codex', 'award.nexon'].map(id => `<li>${md(C[id])}</li>`).join('')}</ul></div>`;
+  // 수상 설명 한 줄과 데모 링크
+  const awardMore = id => { const l = C[id + '.link'] ? cta(id + '.link') : null; return (C[id + '.desc'] ? `<span class="desc">${md(C[id + '.desc'])}</span>` : '') + (l ? `<a class="demo" href="${l.url}" target="_blank" rel="noopener">${l.label} ↗</a>` : ''); };
+  const awardsHTML = (imgs = false) => `<div class="awards"><span class="label">${C['ch.awards']}</span>${imgs ? '<div class="imgs"><img src="img/award-codex.jpg" alt="" loading="lazy"><img src="img/award-nexon.jpg" alt="" loading="lazy"></div>' : ''}<ul>${['award.codex', 'award.nexon'].map(id => `<li>${md(C[id])}${awardMore(id)}</li>`).join('')}</ul></div>`;
   const linkHTML = id => { if (!C['link.' + id]) return ''; const c = cta('link.' + id); return `<div class="ctas"><a class="btn ghost" href="${c.url}" target="_blank" rel="noopener">${c.label} ↗</a></div>`; };
   const info = document.getElementById('info');
   const cards = SCENES.map((s, i) => {
@@ -455,16 +460,16 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
       <h2 id="pageH" class="kicker">${md(C['cta.kicker']).split(' / ').join('<br>')}</h2>
       <p class="final">${md(C['cta.final']).split(' / ').join(' ')}</p>
       <a class="mail" href="${c.url}">${c.url.replace('mailto:', '')}</a>
-      <div class="ctas"><a class="btn ghost" data-cta="cta.secondary" href="#"></a></div></div>
+      <div class="ctas"><a class="btn ghost" data-cta="cta.secondary" href="#"></a><a class="btn ghost" data-cta="cta.linkedin" href="#"></a></div></div>
       <div class="pg-awards"><span class="label">${C['ch.awards']}</span><div class="pg-prints">
-      ${[['codex', '50% 50%', -3], ['nexon', '50% 78%', 2.5]].map(([n, pos, r]) => `<figure class="print" style="--r:${r}deg"><img src="img/award-${n}.jpg" alt="" loading="lazy" style="object-position:${pos}"><figcaption>${md(C['award.' + n]).replace('</strong> · ', '</strong>')}</figcaption></figure>`).join('')}
+      ${[['codex', '50% 50%', -3], ['nexon', '50% 78%', 2.5]].map(([n, pos, r]) => `<figure class="print" style="--r:${r}deg"><img src="img/award-${n}.jpg" alt="" loading="lazy" style="object-position:${pos}"><figcaption>${md(C['award.' + n]).replace('</strong> · ', '</strong>')}${awardMore('award.' + n)}</figcaption></figure>`).join('')}
       </div></div>`;
   }
 
   // 평면 판: 같은 데이터로
   const fl = document.getElementById('flatlist');
   fl.innerHTML = `<section class="fhero"><img class="fphoto" src="img/portrait-sm.jpg" width="200" height="200" alt=""><span class="label" style="color:var(--mute)">${md(C['hero.sub'])}</span><h1>${md(C['hero.h1.short']).split(' / ').join('<br>')}</h1><p>${md(C['hero.body'])}</p>
-    <div style="display:flex;gap:10px;margin-top:22px"><a class="btn" data-cta="cta.primary" href="#"></a><a class="btn ghost" data-cta="cta.secondary" href="#"></a></div></section>
+    <div style="display:flex;gap:10px;margin-top:22px"><a class="btn" data-cta="cta.primary" href="#"></a><a class="btn ghost" data-cta="cta.secondary" href="#"></a><a class="btn ghost" data-cta="cta.linkedin" href="#"></a></div></section>
     <div class="fmark" aria-hidden="true">${md(C['id.name'])}</div>` +
     SCENES.slice(1).filter(s => !s.page).map((s, i) => {
       if (s.id === 'out') { const c = cta('cta.primary'); return `<section class="fmod dark"><span class="led lit"></span><span class="label" style="color:#a7a49c">${C['ch.out']}</span><h2 class="kicker">${md(C['cta.kicker']).split(' / ').join('<br>')}</h2><p class="final" style="color:#cfcbc2;margin:0 0 14px">${md(C['cta.final']).split(' / ').join(' ')}</p><a style="color:#fff;font:700 24px/1.2 var(--display);border-bottom:2px solid var(--signal);text-decoration:none;word-break:break-all" href="${c.url}">${c.url.replace('mailto:', '')}</a>${awardsHTML(true)}</section>`; }
