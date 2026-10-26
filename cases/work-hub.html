@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en" data-title-en="Turned a Slack bot request into a work hub and cut coordination time for 33 projects from 120 to 12 hours a year — Suntae Hwang" data-title-ko="발주 정리 봇 요청을 업무 허브로 넓혀 33개 프로젝트의 소통 시간 연 120h → 12h 단축 — 황선태">
+<html lang="en" data-title-en="Turned a Slack intake-bot request into a Notion-style work dashboard for 30+ projects, cutting coordination time from 120 to 12 hours a year — Suntae Hwang" data-title-ko="발주 정리 봇 요청을 노션형 업무 대시보드로 넓혀 30개 이상 프로젝트의 소통 시간 연 120h → 12h 단축 — 황선태">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Turned a Slack bot request into a work hub and cut coordination time for 33 projects from 120 to 12 hours a year — Suntae Hwang</title>
-<meta name="description" content="Project details: a Slack bot request became a work hub for an audio team of 22, cutting coordination time across 33 projects from an estimated 120 to 12 hours a year.">
+<title>Turned a Slack intake-bot request into a Notion-style work dashboard for 30+ projects, cutting coordination time from 120 to 12 hours a year — Suntae Hwang</title>
+<meta name="description" content="Project details: a Slack intake-bot request became a Notion-style work dashboard for an audio team of 22 across 30+ projects, cutting coordination time from an estimated 120 to 12 hours a year.">
 <script>try{const q=new URLSearchParams(location.search).get('lang'),s=localStorage.getItem('lang');document.documentElement.lang=(q||s)==='ko'?'ko':'en'}catch{}</script>
 <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png">
 <link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
@@ -25,101 +25,111 @@
     <img class="logo" src="../logos/krafton.svg" alt="KRAFTON" style="height:30px">
     <span class="label">2026.06– · Forward Deployed Engineer</span>
   </div>
-  <h1><span class="en">Turned a Slack bot request into a work hub and cut coordination time for 33 projects from 120 to 12 hours a year</span><span class="ko">발주 정리 봇 요청을 업무 허브로 넓혀 33개 프로젝트의 소통 시간 연 120h → 12h 단축</span></h1>
-  <p class="facts"><span class="en">Audio team of 22 · 15 studios, 33 projects · Slack, Jira, LLM, MCP, Claude Code · in production since 2026.10</span><span class="ko">오디오 조직 22명 · 15개 스튜디오, 33개 프로젝트 · Slack, Jira, LLM, MCP, Claude Code · 2026.10부터 정식 운영</span></p>
+  <h1><span class="en">Turned a Slack intake-bot request into a Notion-style work dashboard for 30+ projects, cutting coordination time from 120 to 12 hours a year</span><span class="ko">발주 정리 봇 요청을 노션형 업무 대시보드로 넓혀 30개 이상 프로젝트의 소통 시간 연 120h → 12h 단축</span></h1>
+  <p class="facts"><span class="en">Audio team of 22 in 4 teams · 15 studios, 30+ projects · Next.js, TypeScript, PostgreSQL, Slack, Jira, Outlook, MCP, Claude Code · screens co-built with an audio team member · in production since 2026.10.05</span><span class="ko">오디오 조직 4개 팀 22명 · 개발 스튜디오 15곳, 30개 이상 프로젝트 · Next.js, TypeScript, PostgreSQL, Slack·Jira·Outlook 연동, MCP, Claude Code · 화면은 현업 구성원과 공동 개발 · 2026.10.05 정식 운영</span></p>
 
   <section>
     <span class="label"><span class="en">Architecture</span><span class="ko">구조</span></span>
     <figure>
-      <svg viewBox="0 0 760 340" role="img" aria-label="Orders scattered across Jira, spreadsheets, Trello and Slack Lists flow into one work hub, with Slack intake, an MCP server and an issue-to-PR bot">
+      <svg viewBox="0 0 760 360" role="img" aria-label="Studio Jira, Slack Lists, Notion and Trello feed one work dashboard organized as project, work schedule and task, with Slack intake, Outlook leave, an MCP server and an issue-to-PR bot">
         <defs>
           <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#1c1d21"/></marker>
           <marker id="ahm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#7c776c"/></marker>
         </defs>
         <rect class="grp" x="10" y="14" width="200" height="236" rx="12"/>
         <text class="t-mono en" x="24" y="38">BEFORE · SCATTERED</text>
-        <text class="t-mono ko" x="24" y="38">기존 · 흩어진 발주</text>
-        <rect class="box old" x="30" y="52" width="160" height="36" rx="8"/><text x="110" y="75" text-anchor="middle">Jira</text>
-        <rect class="box old" x="30" y="98" width="160" height="36" rx="8"/><text x="110" y="121" text-anchor="middle" class="en">Spreadsheets</text><text x="110" y="121" text-anchor="middle" class="ko">시트</text>
-        <rect class="box old" x="30" y="144" width="160" height="36" rx="8"/><text x="110" y="167" text-anchor="middle">Trello</text>
-        <rect class="box old" x="30" y="190" width="160" height="36" rx="8"/><text x="110" y="213" text-anchor="middle">Slack Lists</text>
-        <text x="110" y="276" text-anchor="middle" class="t-sm en">15 studios · 33 projects</text>
-        <text x="110" y="276" text-anchor="middle" class="t-sm ko">15개 스튜디오 · 33개 프로젝트</text>
+        <text class="t-mono ko" x="24" y="38">기존 · 흩어진 도구</text>
+        <rect class="box old" x="30" y="52" width="160" height="36" rx="8"/><text x="110" y="75" text-anchor="middle" class="en">Jira, one per studio</text><text x="110" y="75" text-anchor="middle" class="ko">개발사별 Jira</text>
+        <rect class="box old" x="30" y="98" width="160" height="36" rx="8"/><text x="110" y="121" text-anchor="middle">Slack Lists</text>
+        <rect class="box old" x="30" y="144" width="160" height="36" rx="8"/><text x="110" y="167" text-anchor="middle">Notion</text>
+        <rect class="box old" x="30" y="190" width="160" height="36" rx="8"/><text x="110" y="213" text-anchor="middle">Trello</text>
+        <text x="110" y="270" text-anchor="middle" class="t-sm en">15 studios · 30+ projects</text>
+        <text x="110" y="270" text-anchor="middle" class="t-sm ko">개발 스튜디오 15곳 · 30개+ 프로젝트</text>
 
         <path class="arw" d="M190 70C250 70 250 140 298 148"/>
         <path class="arw" d="M190 116C240 116 255 146 298 152"/>
         <path class="arw" d="M190 162C240 162 255 158 298 158"/>
         <path class="arw" d="M190 208C250 208 250 168 298 164"/>
-        <text x="214" y="62" class="t-sm en">status sync</text><text x="214" y="62" class="t-sm ko">상태 동기화</text>
+        <text x="200" y="50" class="t-sm en">add a label → import + sync</text><text x="200" y="50" class="t-sm ko">라벨만 달면 유입·동기화</text>
 
-        <rect class="box accent" x="300" y="18" width="190" height="54" rx="8"/>
-        <text x="395" y="40" text-anchor="middle" class="t-b en">Slack message shortcut</text><text x="395" y="58" text-anchor="middle" class="t-sm en">LLM drafts the task</text>
-        <text x="395" y="40" text-anchor="middle" class="t-b ko">Slack 메시지 숏컷</text><text x="395" y="58" text-anchor="middle" class="t-sm ko">LLM이 일감 초안 작성</text>
-        <path class="arw" d="M395 72V108"/>
+        <rect class="box accent" x="300" y="12" width="190" height="62" rx="8"/>
+        <text x="395" y="34" text-anchor="middle" class="t-b en">Slack shortcut · DM bot</text><text x="395" y="52" text-anchor="middle" class="t-sm en">LLM drafts the task</text><text x="395" y="66" text-anchor="middle" class="t-sm en">"What's due this week?"</text>
+        <text x="395" y="34" text-anchor="middle" class="t-b ko">Slack 숏컷 · DM 비서</text><text x="395" y="52" text-anchor="middle" class="t-sm ko">LLM이 일감 초안 작성</text><text x="395" y="66" text-anchor="middle" class="t-sm ko">"이번 주 내 마감 뭐 있어?"</text>
+        <path class="arw" d="M395 74V108"/>
 
-        <rect class="box hot" x="300" y="110" width="190" height="90" rx="10"/>
-        <text x="395" y="146" text-anchor="middle" class="on-hot t-b en" style="font-size:16px">Work hub</text>
-        <text x="395" y="146" text-anchor="middle" class="on-hot t-b ko" style="font-size:16px">업무 허브</text>
-        <text x="395" y="170" text-anchor="middle" class="on-hot t-sm en" style="fill:#c9c6be">intake → assign → track</text>
-        <text x="395" y="170" text-anchor="middle" class="on-hot t-sm ko" style="fill:#c9c6be">접수 → 분배 → 마감 관리</text>
+        <rect class="box hot" x="300" y="110" width="190" height="96" rx="10"/>
+        <text x="395" y="140" text-anchor="middle" class="on-hot t-b en" style="font-size:16px">Work dashboard</text>
+        <text x="395" y="140" text-anchor="middle" class="on-hot t-b ko" style="font-size:16px">업무 대시보드</text>
+        <text x="395" y="164" text-anchor="middle" class="on-hot t-sm en" style="fill:#c9c6be">project › schedule › task</text>
+        <text x="395" y="164" text-anchor="middle" class="on-hot t-sm ko" style="fill:#c9c6be">프로젝트 › 업무 일정 › 일감</text>
+        <text x="395" y="184" text-anchor="middle" class="on-hot t-sm en" style="fill:#c9c6be">user-defined fields and views</text>
+        <text x="395" y="184" text-anchor="middle" class="on-hot t-sm ko" style="fill:#c9c6be">속성·보기·필터를 직접 구성</text>
 
-        <path class="arw" d="M490 155H568"/>
-        <rect class="box" x="570" y="122" width="170" height="66" rx="8"/>
-        <text x="655" y="148" text-anchor="middle" class="t-b">MCP server</text>
-        <text x="655" y="167" text-anchor="middle" class="t-sm en">agents work with tasks</text>
-        <text x="655" y="167" text-anchor="middle" class="t-sm ko">에이전트가 일감을 다룸</text>
+        <path class="arw" d="M490 140H568"/>
+        <rect class="box" x="570" y="112" width="170" height="56" rx="8"/>
+        <text x="655" y="135" text-anchor="middle" class="t-b">MCP server</text>
+        <text x="655" y="153" text-anchor="middle" class="t-sm en">Claude reads and edits tasks</text>
+        <text x="655" y="153" text-anchor="middle" class="t-sm ko">Claude에서 일감 조회·수정</text>
+        <rect class="box" x="570" y="180" width="170" height="44" rx="8"/>
+        <text x="655" y="207" text-anchor="middle" class="t-sm en">Outlook leave on timeline</text>
+        <text x="655" y="207" text-anchor="middle" class="t-sm ko">Outlook 연차·반차 표시</text>
+        <path class="arw" d="M570 202C540 202 520 192 492 186"/>
 
-        <text class="t-mono en" x="240" y="250">AFTER LAUNCH · FEEDBACK LOOP</text>
-        <text class="t-mono ko" x="240" y="250">출시 후 · 피드백 루프</text>
-        <rect class="box" x="240" y="264" width="140" height="50" rx="8"/><text x="310" y="284" text-anchor="middle" class="t-sm en">Issue left</text><text x="310" y="300" text-anchor="middle" class="t-sm en">by the team</text><text x="310" y="293" text-anchor="middle" class="t-sm ko">현업이 남긴 이슈</text>
-        <rect class="box" x="404" y="264" width="150" height="50" rx="8"/><text x="479" y="284" text-anchor="middle" class="t-sm">Claude Code</text><text x="479" y="300" text-anchor="middle" class="t-sm en">opens a PR</text><text x="479" y="300" text-anchor="middle" class="t-sm ko">PR 생성</text>
-        <rect class="box" x="578" y="264" width="160" height="50" rx="8"/><text x="658" y="284" text-anchor="middle" class="t-sm en">A person reviews</text><text x="658" y="300" text-anchor="middle" class="t-sm en">and merges</text><text x="658" y="293" text-anchor="middle" class="t-sm ko">사람이 검토 후 머지</text>
-        <path class="arw" d="M380 289H402"/><path class="arw" d="M554 289H576"/>
-        <path class="arw mute" d="M658 264C658 232 520 228 470 202"/>
+        <text class="t-mono en" x="240" y="262">AFTER LAUNCH · 115 IMPROVEMENTS SHIPPED</text>
+        <text class="t-mono ko" x="240" y="262">출시 후 · 개선 요청 115건 반영</text>
+        <rect class="box" x="240" y="276" width="140" height="50" rx="8"/><text x="310" y="296" text-anchor="middle" class="t-sm en">Improvement</text><text x="310" y="312" text-anchor="middle" class="t-sm en">request</text><text x="310" y="305" text-anchor="middle" class="t-sm ko">현업 개선 요청</text>
+        <rect class="box" x="404" y="276" width="150" height="50" rx="8"/><text x="479" y="296" text-anchor="middle" class="t-sm">headless Claude Code</text><text x="479" y="312" text-anchor="middle" class="t-sm en">opens a PR</text><text x="479" y="312" text-anchor="middle" class="t-sm ko">구현 후 PR 생성</text>
+        <rect class="box" x="578" y="276" width="160" height="50" rx="8"/><text x="658" y="305" text-anchor="middle" class="t-sm en">A person merges</text><text x="658" y="305" text-anchor="middle" class="t-sm ko">사람이 검토 후 머지</text>
+        <path class="arw" d="M380 301H402"/><path class="arw" d="M554 301H576"/>
+        <path class="arw mute" d="M658 276C658 250 520 236 470 208"/>
       </svg>
-      <figcaption><span class="en">Product names and internal screens are left out. The tools on the left are what the team used before the hub.</span><span class="ko">제품명과 사내 화면은 뺐습니다. 왼쪽은 허브를 만들기 전에 현업이 쓰던 툴입니다.</span></figcaption>
+      <figcaption><span class="en">Product names and internal screens are left out. The tools on the left are what the studios and the audio team used before the dashboard.</span><span class="ko">제품명과 사내 화면은 뺐습니다. 왼쪽은 대시보드 이전에 개발사와 오디오 조직이 쓰던 도구입니다.</span></figcaption>
     </figure>
   </section>
 
   <section>
     <h2><span class="en">Problem</span><span class="ko">문제</span></h2>
     <div class="en">
-      <p>The audio team of 22 takes sound orders from 15 studios across 33 projects. Orders, and the work that follows them, were split across Jira, spreadsheets, Trello and Slack Lists. Keeping all of it in sync took an estimated 120 hours of coordination a year.</p>
-      <p>I was first asked for a Slack bot that tidies up incoming orders. Talking it through with the team, I found the harder part came after an order arrived: splitting the work and keeping track of deadlines. A bot built only to the request would have been one more bot nobody used.</p>
+      <p>The audio team of 22 takes sound orders for more than 30 projects from 15 development studios. Each studio runs its own Jira, while the audio team's parts use Slack Lists, Notion and Trello. No tool held both.</p>
+      <p>When a studio's Jira changed, someone had to notice and copy it over by hand, and some changes slipped by. One project often involved several parts at once, and when work moved from one part to the next, as in mixing and mastering, handoffs got crossed. Studios also named and sized their schedules differently (an update version here, a milestone build there), so the audio team had no deadline axis of its own.</p>
+      <p>The first request was a Slack bot that tidies up incoming orders. Talking with the team, I found the hard part came after intake: splitting the work and managing deadlines. A bot built only to the request would have been one more bot nobody used.</p>
     </div>
     <div class="ko">
-      <p>오디오 조직 22명은 15개 스튜디오에서 33개 프로젝트의 사운드 발주를 받습니다. 발주와 그 뒤의 업무는 Jira, 시트, Trello, Slack List에 나뉘어 있었고 이를 맞추는 커뮤니케이션에 연 120시간 정도가 들었습니다(추정).</p>
-      <p>처음 받은 요청은 발주를 정리해 주는 Slack 봇이었습니다. 현업과 이야기해 보니 정작 어려운 일은 발주를 받은 다음, 일을 나누고 마감을 챙기는 쪽이었습니다. 요청대로 봇만 만들었다면 쓰이지 않는 봇이 하나 더 생겼을 겁니다.</p>
+      <p>오디오 조직 22명은 개발 스튜디오 15곳의 30개가 넘는 프로젝트에서 사운드 발주를 받습니다. 개발사는 저마다 Jira를 쓰고 오디오 조직의 파트들은 Slack 리스트·Notion·Trello를 따로 씁니다. 이 둘을 함께 담는 도구가 없었습니다.</p>
+      <p>개발사 Jira가 바뀌면 담당자가 직접 확인해 옮겨야 했고 바뀐 줄 모르고 지나가는 일도 생겼습니다. 한 프로젝트에 여러 파트가 나란히 붙고 믹스·마스터처럼 일이 파트를 건너 이어지면 인계가 엇갈렸습니다. 개발사마다 일정 이름과 단위가 달라서(어디는 업데이트 버전, 어디는 마일스톤 빌드) 오디오 조직 기준의 마감도 세울 수 없었습니다.</p>
+      <p>처음 받은 요청은 발주를 정리해 주는 Slack 봇이었습니다. 현업과 이야기해 보니 어려운 일은 접수보다 그 뒤, 일을 나누고 마감을 챙기는 쪽에 있었습니다. 요청대로 봇만 만들었다면 쓰이지 않는 봇이 하나 더 생겼을 겁니다.</p>
     </div>
   </section>
 
   <section>
     <h2><span class="en">Solution</span><span class="ko">해결</span></h2>
     <div class="en">
-      <p>So I widened the bot into a hub that covers what happens after intake, from splitting the work to tracking it. Jira status syncs with the hub per studio. People register tasks straight from a Slack message, and an LLM writes the first draft of the task.</p>
-      <p>The screen rules came from things the team said while we worked:</p>
-      <p class="quote">"Don't open a window to change one value."<br>"No confirmation dialog for anything that can be undone."</p>
-      <p>I had spent real effort on a conversational ordering bot. After discussing it with the team I removed it and rebuilt intake as Slack message shortcuts.</p>
-      <p>To keep the hub moving after launch, I added an MCP server so agents can work with tasks. When the team leaves an issue, Claude Code turns it into a pull request and a person reviews and merges it. Feedback goes into decision records and gets applied every day.</p>
+      <p>I designed it to gather data from the tools people already used rather than replace them. Projects work differently, so instead of fixed features people set up their own properties, views and filters, as in Notion. A single value is edited in place without opening a detail panel, and actions that can be undone show an undo toast instead of a confirmation dialog.</p>
+      <p>The structure has three levels: project, work schedule, task. The work schedule level is new. It restates each studio's schedule on the audio team's terms.</p>
+      <p>Adding a label to a studio's Jira ticket brings the task in, keeps its title, deadline and status in sync, and files it under the right work schedule. Trello and Slack Lists are connected as well, and Outlook leave shows up on the timeline.</p>
+      <p>A Slack message shortcut has an LLM fill in a task draft, and a Slack bot answers DMs such as "What's due for me this week?". An MCP server registered on the company MCP gateway lets Claude look up and edit tasks. The first version, a conversational ordering bot, was removed in September 2026 and redesigned around message shortcuts.</p>
+      <p>When someone leaves an improvement request, headless Claude Code implements it and opens a pull request, and a person reviews and merges it. From August 2026 a member of the audio team co-built the screens with me. I also wrote the step-by-step guide, the introduction deck and a help chat.</p>
     </div>
     <div class="ko">
-      <p>봇 대신 발주를 받은 뒤 일을 나누고 마감을 챙기는 데까지 다루는 허브를 만들었습니다. 스튜디오별 Jira 상태는 허브와 동기화됩니다. Slack 메시지에서 바로 일감을 등록하면 LLM이 초안을 써 줍니다.</p>
-      <p>화면 설계 원칙은 함께 일하며 현업이 한 말에서 가져왔습니다.</p>
-      <p class="quote">"값 하나 고치려고 창을 열지 않는다."<br>"되돌릴 수 있는 일에는 확인창을 띄우지 않는다."</p>
-      <p>공들여 만든 대화형 발주 봇도 있었습니다. 현업과 논의한 끝에 걷어내고 메시지 숏컷 방식으로 다시 만들었습니다.</p>
-      <p>출시 뒤에도 허브가 계속 고쳐지도록 MCP 서버를 붙여 에이전트가 일감을 다룰 수 있게 했습니다. 현업이 이슈를 남기면 Claude Code가 PR을 만들고 사람이 검토해 머지합니다. 피드백은 결정 기록으로 남겨 매일 반영합니다.</p>
+      <p>기존 도구를 바꾸라고 하지 않고 데이터를 한곳에 모으는 축으로 설계했습니다. 프로젝트마다 일하는 방식이 달라서 기능을 고정하지 않고 노션처럼 사용자가 속성·보기·필터를 직접 구성하게 했습니다. 값 하나는 상세창을 열지 않고 그 자리에서 고치며 되돌릴 수 있는 동작에는 확인창 대신 실행 취소 알림을 띄웁니다.</p>
+      <p>구조는 프로젝트 › 업무 일정 › 일감의 3단입니다. 업무 일정은 개발사마다 다른 일정을 오디오 조직 기준으로 다시 세운 층입니다.</p>
+      <p>개발사 Jira 티켓에 라벨만 달면 일감이 들어오고 제목·마감·상태가 따라 바뀌며 맞는 업무 일정 아래로 자동 배치됩니다. Trello·Slack 리스트와도 연동했고 Outlook의 연차·반차는 타임라인에 표시됩니다.</p>
+      <p>Slack 메시지 숏컷을 누르면 LLM이 칸을 채운 일감 초안을 만듭니다. Slack 봇에게는 "이번 주 내 마감 뭐 있어?"처럼 DM으로 물을 수 있습니다. MCP 서버는 사내 MCP 게이트웨이에 등록해 Claude에서 일감을 조회·수정하게 했습니다. 처음 만든 대화형 발주 봇은 2026년 9월에 걷어내고 메시지 숏컷 방식으로 다시 설계했습니다.</p>
+      <p>현업이 개선 요청을 남기면 headless Claude Code가 구현해 PR까지 만들고 머지는 사람이 합니다. 화면은 2026년 8월부터 오디오 조직 구성원과 함께 개발했습니다. 단계별 사용법 가이드와 소개 발표 자료, 도움말 챗도 직접 만들었습니다.</p>
     </div>
   </section>
 
   <section>
     <h2><span class="en">Result</span><span class="ko">결과</span></h2>
     <div class="en">
-      <table><thead><tr><th><span class="en">Metric</span><span class="ko">지표</span></th><th><span class="en">Before</span><span class="ko">이전</span></th><th><span class="en">After</span><span class="ko">이후</span></th><th><span class="en">Change</span><span class="ko">변화</span></th></tr></thead><tbody><tr><td>Coordination time per year (est.)</td><td class="num">120h</td><td class="num">12h</td><td class="num up">−90%</td></tr></tbody></table>
-      <p>The hub has been in production since October 2026, and I maintain it together with the team. Looking back, the decisions about what to build and what to throw away changed the outcome more than any feature did.</p>
+      <table><thead><tr><th><span class="en">Metric</span><span class="ko">지표</span></th><th><span class="en">Before</span><span class="ko">이전</span></th><th><span class="en">After</span><span class="ko">이후</span></th><th><span class="en">Change</span><span class="ko">변화</span></th></tr></thead><tbody><tr><td>Coordination time per year (est.)</td><td class="num">120h</td><td class="num">12h</td><td class="num up">−90%</td></tr><tr><td>Improvements shipped by the dev bot</td><td class="num">–</td><td class="num">115</td><td class="num up">7 requesters</td></tr></tbody></table>
+      <p>The dashboard has been in production since October 5, 2026, and I maintain it together with the team. The 120 → 12 hours figure is a rough estimate of coordination cost. Of the 115 improvements, 56 came from the team and the rest were my own requests.</p>
+      <p>Looking back, deciding what to build and what to throw away changed the outcome more than any feature did.</p>
     </div>
     <div class="ko">
-      <table><thead><tr><th><span class="en">Metric</span><span class="ko">지표</span></th><th><span class="en">Before</span><span class="ko">이전</span></th><th><span class="en">After</span><span class="ko">이후</span></th><th><span class="en">Change</span><span class="ko">변화</span></th></tr></thead><tbody><tr><td>연간 커뮤니케이션 시간(추정)</td><td class="num">120h</td><td class="num">12h</td><td class="num up">−90%</td></tr></tbody></table>
-      <p>2026년 10월부터 정식 운영 중이며 현업과 함께 유지보수하고 있습니다. 돌아보면 무엇을 만들고 무엇을 버릴지 정한 판단이 결과를 가장 크게 바꿨습니다.</p>
+      <table><thead><tr><th><span class="en">Metric</span><span class="ko">지표</span></th><th><span class="en">Before</span><span class="ko">이전</span></th><th><span class="en">After</span><span class="ko">이후</span></th><th><span class="en">Change</span><span class="ko">변화</span></th></tr></thead><tbody><tr><td>연간 커뮤니케이션 시간(추정)</td><td class="num">120h</td><td class="num">12h</td><td class="num up">−90%</td></tr><tr><td>자동 개발 봇으로 반영한 개선 요청</td><td class="num">–</td><td class="num">115건</td><td class="num up">요청자 7명</td></tr></tbody></table>
+      <p>2026년 10월 5일부터 정식 운영 중이며 현업과 함께 유지보수하고 있습니다. 120h → 12h는 커뮤니케이션 비용을 대략 산정한 추정치입니다. 개선 요청 115건 가운데 56건이 현업 요청이고 나머지는 제가 남긴 요청입니다.</p>
+      <p>돌아보면 무엇을 만들고 무엇을 버릴지 정한 판단이 결과를 가장 크게 바꿨습니다.</p>
     </div>
   </section>
 
