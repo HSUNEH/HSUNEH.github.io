@@ -20,18 +20,20 @@
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --wall:#ece9e2; --desk:#d9d4c9; --ink:#1c1d21; --mute:#7c776c;
   --signal:#ff5a1f; --signal-glow:rgba(255,90,31,.55);
   --alu-1:#e4e4e0; --alu-2:#c9c9c4;
-  --display:"Bricolage Grotesque",system-ui,sans-serif; --sans:"IBM Plex Sans",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+  /* 한글은 IBM Plex Sans KR로 받는다. 한글 글자가 없으면 내려받지 않는다 */
+  --display:"Bricolage Grotesque","IBM Plex Sans KR",system-ui,sans-serif; --sans:"IBM Plex Sans","IBM Plex Sans KR",system-ui,sans-serif; --mono:"IBM Plex Mono","IBM Plex Sans KR",ui-monospace,monospace;
   --ease:cubic-bezier(.2,0,0,1);
   --dk:0;
 }
 *{box-sizing:border-box;margin:0}
 html{background:var(--wall);color:var(--ink);font:400 17px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+html:lang(ko){word-break:keep-all}
 body{overflow-x:hidden}
 h1,h2,h3{font-weight:500;text-wrap:balance}
 p{text-wrap:pretty}
@@ -53,6 +55,13 @@ html.night .chrome .st{color:#e1dcd1;text-shadow:0 -1px 0 rgba(255,255,255,.5),1
 .btn.ghost{background:transparent;color:inherit;border-color:currentColor}
 html.night .chrome{color:#e9e6df}
 html.night .chrome .btn:not(:hover){background:#e9e6df;color:var(--ink);border-color:#e9e6df}
+/* 언어 전환: 버튼과 같은 높이의 두 칸 스위치 */
+.lang{display:inline-flex;margin-left:10px;border:1px solid currentColor;border-radius:999px;overflow:hidden;font:500 12px/1 var(--mono);letter-spacing:.14em}
+.lang a{padding:.75em .85em;text-decoration:none;color:inherit;opacity:.55;transition:background .2s var(--ease),color .2s,opacity .2s}
+.lang a:hover,.lang a:focus-visible{opacity:1;color:var(--signal)}
+.lang a[aria-current]{opacity:1;background:currentColor}
+.lang a[aria-current] span{color:#f3f1ec}
+html.night .lang a[aria-current] span{color:var(--ink)}
 .stops{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:30;display:flex;gap:4px}
 .stops button{width:22px;height:22px;border:0;background:none;cursor:pointer;display:grid;place-items:center;padding:0;color:inherit}
 .stops button::after{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.28;transition:opacity .2s,background .2s,transform .2s}
@@ -296,6 +305,7 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
 <div class="chrome">
   <a class="st" href="#" id="stLogo" aria-label="Suntae Hwang, back to top">ST</a>
   <a class="btn" data-cta="cta.primary" href="#"></a>
+  <div class="lang" role="group" aria-label="Language"><a href="?lang=en" data-lang="en" hreflang="en"><span>EN</span></a><a href="?lang=ko" data-lang="ko" hreflang="ko"><span>KO</span></a></div>
 </div>
 <nav class="stops" aria-label="Chapters"></nav>
 
@@ -319,7 +329,7 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
           <div class="card-id" id="badgeCard">
             <i class="slot"></i>
             <img src="img/portrait.jpg" width="640" height="640" alt="" decoding="async" draggable="false">
-            <b data-c="id.name"></b><span data-c="badge.role"></span><small data-c="badge.note"></small>
+            <b data-c="badge.name"></b><span data-c="badge.role"></span><small data-c="badge.note"></small>
           </div>
         </div>
         <svg class="rope" aria-hidden="true">
@@ -348,6 +358,25 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
 <main class="flatlist" id="flatlist"></main>
 
 <script src="content.js"></script>
+<script src="content.ko.js"></script>
+<script>
+// 언어: ?lang= > 저장한 선택 > 영어. 장면은 처음 한 번만 그리므로 전환은 새로 불러온다
+(() => {
+  let lang = new URLSearchParams(location.search).get('lang');
+  if (lang !== 'ko' && lang !== 'en') { try { lang = localStorage.getItem('lang'); } catch {} }
+  if (lang !== 'ko') lang = 'en';
+  document.documentElement.lang = lang;
+  if (lang === 'ko') { Object.assign(window.CONTENT, window.CONTENT_KO); document.title = window.CONTENT['meta.title']; }
+  document.querySelectorAll('.lang a').forEach(a => {
+    if (a.dataset.lang === lang) a.setAttribute('aria-current', 'true');
+    a.addEventListener('click', e => {
+      e.preventDefault(); if (a.dataset.lang === lang) return;
+      try { localStorage.setItem('lang', a.dataset.lang); sessionStorage.setItem('langY', scrollY); } catch {}
+      const u = new URL(location.href); u.searchParams.set('lang', a.dataset.lang); location.replace(u);
+    });
+  });
+})();
+</script>
 <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
 <script type="module" src="rack-gl.js"></script>
 <script>
@@ -856,6 +885,8 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
   addEventListener('resize', layout);
   mqN.addEventListener('change', layout); mqR.addEventListener('change', layout);
   layout();
+  // 언어를 바꾸고 다시 불러왔으면 보던 자리로 돌아간다
+  try { const y = sessionStorage.getItem('langY'); if (y != null) { sessionStorage.removeItem('langY'); scrollTo(0, +y); } } catch {}
   if (document.fonts) document.fonts.ready.then(layout);
 })();
 </script>
