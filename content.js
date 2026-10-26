@@ -24,6 +24,7 @@ window.CONTENT = {
  "mod.snu": "**Seoul National University** DOSE: first-author paper at ICASSP 2025 ; Extracts drum one-shots from a full mix without source separation ; FAD 8% better than the separation baseline ; Built the 1M-pair training dataset",
  "mod.camp": "**NAVER Boostcamp AI Tech** Switched from mechanical engineering to AI",
  "hint.drag": "Drag the cable, or scroll",
+ "badge.name": "Suntae Hwang",
  "badge.role": "FDE · AI Builder",
  "badge.note": "Seoul, Korea",
  "knob.dose": "Mix / Hit",
