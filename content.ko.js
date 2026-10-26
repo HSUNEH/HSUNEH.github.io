@@ -16,7 +16,7 @@ window.CONTENT_KO = {
  "award.nexon.desc": "Drift Copilot, 이틀 동안 혼자 만들었습니다. 달리는 동안에는 로컬 한국어 LLM이 코칭하고, 랩이 끝나면 더 큰 모델이 주행을 되짚습니다.",
  "award.nexon.link": "데모 영상 → https://youtube.com/shorts/NdsjgHwKhac",
  "link.hdc": "Claude Code 하네스 → https://github.com/HSUNEH/Claude-With-Me",
- "link.snu": "DOSE 논문 → https://arxiv.org/abs/2504.18157",
+ "link.snu": "ICASSP 논문 → https://ieeexplore.ieee.org/document/10889237",
  "mod.krafton": "**Forward Deployed Engineer** 제작 부문 AX 담당 ; 흩어져 있던 프로젝트 데이터를 노션형 대시보드 하나로 모음 ; Jira·Slack·Outlook 등으로 들어오는 요청 접수를 자동화해, 요청을 쫓아다니는 시간은 줄이고 진행 상태는 믿을 수 있게 함 ; 오디오팀 자동화 도구 제작·배포",
  "mod.ax": "**AX 자문** 교육 회사 2곳에서 전문가 노하우를 Claude Code 스킬과 에이전트로 옮김 ; 한 회사에서는 3명이 하던 운영 업무를 1명이 처리",
  "mod.hdc": "**AI 엔지니어** 도구 40여 개를 다루는 온프레미스 스마트홈 에이전트 ; 툴 선택 정확도 60% → 95% ; 요청당 LLM 호출 4회 → 1회 ; 엉뚱한 방의 웨이크워드 응답 50% → 10% ; 팀용 Claude Code 하네스를 만들고 30명 온보딩",

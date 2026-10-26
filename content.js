@@ -16,7 +16,7 @@ window.CONTENT = {
  "award.nexon.desc": "Drift Copilot, built solo in two days: a local Korean LLM coaches you while you race, then a larger model reviews each lap.",
  "award.nexon.link": "Demo video → https://youtube.com/shorts/NdsjgHwKhac",
  "link.hdc": "Claude Code harness → https://github.com/HSUNEH/Claude-With-Me",
- "link.snu": "DOSE paper → https://arxiv.org/abs/2504.18157",
+ "link.snu": "ICASSP paper → https://ieeexplore.ieee.org/document/10889237",
  "mod.krafton": "**Forward Deployed Engineer** AX for the production division ; Pulled scattered project data into one Notion-style dashboard ; Automated request intake from Jira, Slack, Outlook and more, so teams spend less time chasing requests and trust the status ; Built and shipped automation tools for the audio team",
  "mod.ax": "**AX Advisor** Turned expert know-how into Claude Code skills and agents for two education companies ; At one company, operations work that took three people now takes one",
  "mod.hdc": "**AI Engineer** On-prem smart-home agent with 40+ tools ; Tool-selection accuracy 60% → 95% ; LLM calls per request 4 → 1 ; Wrong-room wake-word replies 50% → 10% ; Built a Claude Code harness for the team and onboarded 30 people",
