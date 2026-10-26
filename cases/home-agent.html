@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en" data-title-en="One agent instead of four LLM calls — Suntae Hwang" data-title-ko="LLM 4회 호출을 단일 에이전트로 — 황선태">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One agent instead of four LLM calls — Suntae Hwang</title>
+<meta name="description" content="Case study: merging a four-step LLM pipeline into one on-prem agent raised tool-selection accuracy from 60% to 95% and cut LLM calls per request from 4 to 1.">
+<script>try{const q=new URLSearchParams(location.search).get('lang'),s=localStorage.getItem('lang');document.documentElement.lang=(q||s)==='ko'?'ko':'en'}catch{}</script>
+<link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="case.css">
+</head>
+<body>
+<header class="top">
+  <a class="back" data-scene="hdc" href="../#m-hdc"><span class="en">← Suntae Hwang</span><span class="ko">← 황선태</span></a>
+  <a class="btn" href="mailto:iamsuntae@gmail.com"><span class="en">Email me</span><span class="ko">이메일</span></a>
+  <div class="lang" role="group" aria-label="Language"><a href="?lang=en" data-lang="en" hreflang="en"><span>EN</span></a><a href="?lang=ko" data-lang="ko" hreflang="ko"><span>KO</span></a></div>
+</header>
+
+<main>
+  <div class="eyebrow">
+    <img class="logo" src="../logos/hdc.svg" alt="HDC LABS">
+    <span class="label">2025.07–2026.06 · <span class="en">AI Engineer</span><span class="ko">AI 엔지니어</span></span>
+  </div>
+
+  <div class="en">
+    <h1>Merged a four-step LLM pipeline into one agent: tool selection 60% → 95%</h1>
+    <p class="lede">An on-prem AI assistant for apartment households: residents control lights, heating, gas, the elevator and more by voice. I took it from a four-call LLM pipeline to a single agent, from design through production.</p>
+  </div>
+  <div class="ko">
+    <h1>4단계 LLM 파이프라인을 단일 에이전트로 합쳐 툴 선택 정확도 60% → 95%</h1>
+    <p class="lede">아파트 세대에서 조명·난방·가스·엘리베이터 등을 말로 제어하는 온프레미스 AI 비서입니다. LLM을 네 번 연달아 부르던 구조를 단일 에이전트로 바꾸고, 설계부터 프로덕션 배포까지 맡았습니다.</p>
+  </div>
+
+  <dl class="meta">
+    <div><dt><span class="en">Team</span><span class="ko">팀</span></dt><dd><span class="en">16-person project, 3 on the agent team</span><span class="ko">16명 프로젝트, 에이전트 3명</span></dd></div>
+    <div><dt><span class="en">Role</span><span class="ko">역할</span></dt><dd><span class="en">Agent design to production</span><span class="ko">에이전트 설계부터 배포까지</span></dd></div>
+    <div><dt><span class="en">Stack</span><span class="ko">기술</span></dt><dd>Python, OpenAI SDK, vLLM (Qwen3-14B), FastAPI</dd></div>
+    <div><dt><span class="en">Status</span><span class="ko">상태</span></dt><dd><span class="en">Shipped to production</span><span class="ko">프로덕션 배포</span></dd></div>
+  </dl>
+
+  <div class="stats">
+    <div class="stat"><div class="n">60%<i>→</i>95%</div><div class="k"><span class="en">Tool-selection accuracy</span><span class="ko">툴 선택 정확도</span></div></div>
+    <div class="stat"><div class="n">4<i>→</i>1</div><div class="k"><span class="en">LLM calls per request</span><span class="ko">요청당 LLM 호출 횟수</span></div></div>
+  </div>
+
+  <section>
+    <span class="label"><span class="en">Architecture</span><span class="ko">구조</span></span>
+    <h2><span class="en">Before and after</span><span class="ko">바꾸기 전과 후</span></h2>
+    <figure>
+      <svg viewBox="0 0 760 330" role="img" aria-label="Four sequential LLM calls replaced by one function-calling agent">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#1c1d21"/></marker>
+          <marker id="ahm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#7c776c"/></marker>
+        </defs>
+        <text class="t-mono en" x="20" y="24">BEFORE · 4 SEQUENTIAL LLM CALLS</text>
+        <text class="t-mono ko" x="20" y="24">기존 · LLM 4회 순차 호출</text>
+        <rect class="box" x="20" y="40" width="90" height="50" rx="8"/><text x="65" y="70" text-anchor="middle" class="en">Request</text><text x="65" y="70" text-anchor="middle" class="ko">사용자 요청</text>
+        <rect class="box old" x="134" y="40" width="112" height="50" rx="8"/><text x="190" y="61" text-anchor="middle" class="t-b">LLM 1</text><text x="190" y="78" text-anchor="middle" class="t-sm en">Tool classifier</text><text x="190" y="78" text-anchor="middle" class="t-sm ko">툴 분류</text>
+        <rect class="box old" x="270" y="40" width="112" height="50" rx="8"/><text x="326" y="61" text-anchor="middle" class="t-b">LLM 2</text><text x="326" y="78" text-anchor="middle" class="t-sm en">Command check</text><text x="326" y="78" text-anchor="middle" class="t-sm ko">명령 확인</text>
+        <rect class="box old" x="406" y="40" width="112" height="50" rx="8"/><text x="462" y="61" text-anchor="middle" class="t-b">LLM 3</text><text x="462" y="78" text-anchor="middle" class="t-sm en">Tool call</text><text x="462" y="78" text-anchor="middle" class="t-sm ko">툴 호출</text>
+        <rect class="box old" x="542" y="40" width="112" height="50" rx="8"/><text x="598" y="61" text-anchor="middle" class="t-b">LLM 4</text><text x="598" y="78" text-anchor="middle" class="t-sm en">Answer</text><text x="598" y="78" text-anchor="middle" class="t-sm ko">답변 정리</text>
+        <path class="arw" d="M110 65H132"/><path class="arw" d="M246 65H268"/><path class="arw" d="M382 65H404"/><path class="arw" d="M518 65H540"/>
+        <text x="672" y="62" class="bad t-b" style="font-size:20px">60%</text><text x="672" y="80" class="t-sm en">accuracy</text><text x="672" y="80" class="t-sm ko">정확도</text>
+        <text x="190" y="110" class="t-sm en">Each step's error carries into the next; latency stacks up</text>
+        <text x="190" y="110" class="t-sm ko">단계마다 오류가 다음 단계로 번지고, 지연이 쌓임</text>
+
+        <rect class="grp" x="10" y="132" width="740" height="188" rx="12"/>
+        <text class="t-mono en" x="20" y="154">AFTER · ONE AGENT, ONE INFERENCE</text>
+        <text class="t-mono ko" x="20" y="154">개선 · 단일 에이전트, 추론 1회</text>
+        <rect class="box" x="20" y="170" width="90" height="56" rx="8"/><text x="65" y="203" text-anchor="middle" class="en">Request</text><text x="65" y="203" text-anchor="middle" class="ko">사용자 요청</text>
+        <rect class="box hot" x="134" y="170" width="250" height="56" rx="8"/><text x="259" y="193" text-anchor="middle" class="on-hot t-b">Qwen3-14B on vLLM</text><text x="259" y="212" text-anchor="middle" class="on-hot t-sm" style="fill:#c9c6be">OpenAI function calling · 1 call</text>
+        <rect class="box" x="408" y="170" width="160" height="56" rx="8"/><text x="488" y="193" text-anchor="middle" class="t-b en">40+ tools</text><text x="488" y="193" text-anchor="middle" class="t-b ko">도구 40여 개</text><text x="488" y="212" text-anchor="middle" class="t-sm en">lights, heating, gas, elevator…</text><text x="488" y="212" text-anchor="middle" class="t-sm ko">조명·난방·가스·엘리베이터…</text>
+        <rect class="box" x="592" y="170" width="70" height="56" rx="8"/><text x="627" y="193" text-anchor="middle" class="t-sm en">Streaming</text><text x="627" y="209" text-anchor="middle" class="t-sm en">reply</text><text x="627" y="201" text-anchor="middle" class="t-sm ko">스트리밍 응답</text>
+        <path class="arw" d="M110 198H132"/><path class="arw" d="M384 198H406"/><path class="arw" d="M568 198H590"/>
+        <text x="676" y="195" class="good t-b" style="font-size:20px">95%</text><text x="676" y="213" class="t-sm en">accuracy</text><text x="676" y="213" class="t-sm ko">정확도</text>
+
+        <rect class="box accent" x="134" y="252" width="190" height="48" rx="8"/><text x="229" y="272" text-anchor="middle" class="t-sm en">Tool descriptions +</text><text x="229" y="288" text-anchor="middle" class="t-sm en">parameter schemas</text><text x="229" y="280" text-anchor="middle" class="t-sm ko">도구 설명·파라미터 스키마 재설계</text>
+        <rect class="box" x="338" y="252" width="190" height="48" rx="8"/><text x="433" y="272" text-anchor="middle" class="t-sm en">Per-household sessions</text><text x="433" y="288" text-anchor="middle" class="t-sm en">+ TTL cache</text><text x="433" y="272" text-anchor="middle" class="t-sm ko">세대별(동·호) 세션 격리</text><text x="433" y="288" text-anchor="middle" class="t-sm ko">+ TTL 캐싱</text>
+        <rect class="box" x="542" y="252" width="190" height="48" rx="8"/><text x="637" y="272" text-anchor="middle" class="t-sm en">Automated evaluation</text><text x="637" y="288" text-anchor="middle" class="t-sm en">pipeline</text><text x="637" y="280" text-anchor="middle" class="t-sm ko">자동 평가 파이프라인</text>
+      </svg>
+      <figcaption><span class="en">Tool selection and execution moved into a single function-calling inference. The highlighted box is where most of the accuracy gain came from.</span><span class="ko">툴 선택과 실행을 함수 호출 추론 한 번으로 옮겼습니다. 정확도를 가장 크게 올린 건 주황색 칸, 도구 설명 재설계입니다.</span></figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <span class="label"><span class="en">Problem</span><span class="ko">문제</span></span>
+    <div class="en">
+      <h2>Four LLM calls for every request</h2>
+      <p>Every request went through four LLM calls in a row: a tool classifier, a command check, the tool call, and a final answer.</p>
+      <ul>
+        <li>Latency stacked up with every call.</li>
+        <li>A classification error in one step carried into the next, so the right tool was picked only <strong>60%</strong> of the time.</li>
+      </ul>
+    </div>
+    <div class="ko">
+      <h2>요청 하나에 LLM 네 번</h2>
+      <p>모든 요청이 툴 분류 → 명령 확인 → 툴 호출 → 답변 정리, 네 번의 LLM 호출을 차례로 거쳤습니다.</p>
+      <ul>
+        <li>호출할 때마다 응답 지연이 쌓였습니다.</li>
+        <li>한 단계의 분류 오류가 다음 단계로 그대로 번져, 최종 툴 선택 정확도가 <strong>60%</strong>에 그쳤습니다.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <span class="label"><span class="en">Solution</span><span class="ko">해결</span></span>
+    <h2><span class="en">What I changed</span><span class="ko">바꾼 것</span></h2>
+    <ol class="steps en">
+      <li><h3>One inference instead of four</h3><p>Rebuilt the pipeline as a single agent on a lightweight LLM served on-prem with vLLM. With OpenAI function calling, choosing a tool and calling it happen in the same inference.</p></li>
+      <li><h3>Tool descriptions as the main lever</h3><p>Rewrote the description and parameter schema of each of the 40+ tools, from lighting, heating, ventilation, gas and the elevator to weather and news. This prompt work is what moved tool-selection accuracy from 60% to 95%.</p></li>
+      <li><h3>Sessions per household</h3><p>Isolated sessions by household (building and unit number) and added TTL-based caching.</p></li>
+      <li><h3>Measure every change</h3><p>Defined quantitative evaluation metrics and built an automated evaluation pipeline, so every change was checked for quality.</p></li>
+      <li><h3>Plan for the next limit</h3><p>A single agent loses accuracy past about 15 tools, and new domains such as shopping would bloat the system prompt. I designed a staged move, from single agent to router plus specialist agents to orchestrator, that changes only how tools are grouped and leaves the tool code alone.</p></li>
+    </ol>
+    <ol class="steps ko">
+      <li><h3>네 번 대신 한 번의 추론</h3><p>파이프라인을 온프레미스 vLLM으로 서빙하는 경량 LLM 기반 단일 에이전트로 다시 설계했습니다. OpenAI Function Calling으로 툴 선택과 실행을 한 번의 추론에서 처리합니다.</p></li>
+      <li><h3>정확도를 올린 핵심, 도구 설명</h3><p>조명·난방·환기·가스·엘리베이터부터 날씨·뉴스까지 40여 개 도구의 description과 parameter schema를 하나하나 다시 설계했습니다. 이 프롬프트 작업으로 툴 선택 정확도가 60%에서 95%로 올랐습니다.</p></li>
+      <li><h3>세대별 세션</h3><p>세대(동·호) 단위로 세션을 격리하고 TTL 기반 캐싱을 넣었습니다.</p></li>
+      <li><h3>바꿀 때마다 측정</h3><p>정량 평가 지표를 정하고 자동 평가 파이프라인을 만들어, 수정할 때마다 품질을 검증했습니다.</p></li>
+      <li><h3>다음 한계에 대비</h3><p>단일 에이전트는 도구가 15개를 넘으면 선택 정확도가 떨어지고, 쇼핑몰 같은 새 도메인이 붙으면 시스템 프롬프트가 비대해집니다. 기존 도구 코드는 그대로 두고 묶는 방식만 바꾸는 단계적 전환(단일 → 라우터+전문 에이전트 → 오케스트레이터)을 설계했습니다.</p></li>
+    </ol>
+  </section>
+
+  <section>
+    <span class="label"><span class="en">Result</span><span class="ko">결과</span></span>
+    <h2><span class="en">Shipped with fewer calls and fewer mistakes</span><span class="ko">호출은 줄이고 정확도는 올려 프로덕션 배포</span></h2>
+    <table>
+      <thead><tr><th><span class="en">Metric</span><span class="ko">지표</span></th><th><span class="en">Before</span><span class="ko">이전</span></th><th><span class="en">After</span><span class="ko">이후</span></th><th><span class="en">Change</span><span class="ko">변화</span></th></tr></thead>
+      <tbody>
+        <tr><td><span class="en">Tool-selection accuracy</span><span class="ko">툴 선택 정확도</span></td><td class="num">60%</td><td class="num">95%</td><td class="num up">+35%p</td></tr>
+        <tr><td><span class="en">LLM calls per request</span><span class="ko">요청당 LLM 호출</span></td><td class="num">4</td><td class="num">1</td><td class="num up">−75%</td></tr>
+      </tbody>
+    </table>
+    <p class="en">The single agent went to production and ran stably. On the same project, an arbitration server for 7 devices cut wrong-room wake-word replies from 50% to 10%, and chunked streaming TTS made responses 20% faster. Both became the team's standard architecture.</p>
+    <p class="ko">단일 에이전트는 프로덕션에 배포돼 안정적으로 운영됐습니다. 같은 프로젝트에서 기기 7대를 조율하는 중앙 승인 서버로 엉뚱한 방의 웨이크워드 응답을 50%에서 10%로 줄였고, 청크 단위 스트리밍 TTS로 응답 속도를 20% 개선했습니다. 두 구조 모두 팀 표준 아키텍처로 채택됐습니다.</p>
+  </section>
+
+  <nav class="next">
+    <span class="label"><span class="en">Next case</span><span class="ko">다음 사례</span></span>
+    <a class="go" data-case="dose.html" href="dose.html"><span class="en">DOSE: drum one-shots by generation →</span><span class="ko">DOSE: 생성으로 뽑는 드럼 원샷 →</span></a>
+  </nav>
+</main>
+<script src="case.js"></script>
+</body>
+</html>

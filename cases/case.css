@@ -1,0 +1,91 @@
+/* 케이스 스터디 공통. 첫 화면과 같은 색·글꼴을 쓰되 읽기 좋은 문서형으로 둔다 */
+:root{
+  --wall:#ece9e2; --paper:#f6f4ef; --ink:#1c1d21; --body:#3a3a36; --mute:#7c776c; --line:rgba(28,29,33,.12);
+  --signal:#ff5a1f; --signal-soft:rgba(255,90,31,.12); --good:#1f7a52;
+  --display:"Bricolage Grotesque","IBM Plex Sans KR",system-ui,sans-serif; --sans:"IBM Plex Sans","IBM Plex Sans KR",system-ui,sans-serif; --mono:"IBM Plex Mono","IBM Plex Sans KR",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0}
+html{background:var(--wall);color:var(--ink);font:400 17px/1.7 var(--sans);-webkit-font-smoothing:antialiased}
+html:lang(ko){word-break:keep-all}
+/* 언어별 블록: 지금 언어가 아닌 쪽은 숨긴다 */
+html:lang(ko) .en,html:lang(en) .ko{display:none}
+body{min-height:100vh}
+a{color:inherit}
+strong{font-weight:500;color:var(--ink)}
+.label{font:500 11px/1.4 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--mute)}
+
+.top{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:10px;padding:14px clamp(16px,3vw,40px);background:color-mix(in oklab,var(--wall),transparent 8%);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .back{font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:.75em 0;margin-right:auto}
+.top .back:hover{color:var(--signal)}
+.btn{display:inline-flex;align-items:center;padding:.75em 1.15em;border-radius:999px;font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;text-decoration:none;white-space:nowrap;background:var(--ink);color:#f3f1ec;border:1px solid var(--ink);transition:background .2s,border-color .2s,color .2s}
+.btn:hover,.btn:focus-visible{background:var(--signal);border-color:var(--signal);color:#fff}
+.btn.ghost{background:transparent;color:inherit;border-color:currentColor}
+.lang{display:inline-flex;border:1px solid currentColor;border-radius:999px;overflow:hidden;font:500 12px/1 var(--mono);letter-spacing:.14em}
+.lang a{padding:.75em .85em;text-decoration:none;color:inherit;opacity:.55}
+.lang a:hover,.lang a:focus-visible{opacity:1;color:var(--signal)}
+.lang a[aria-current]{opacity:1;background:currentColor}
+.lang a[aria-current] span{color:#f3f1ec}
+
+main{max-width:780px;margin:0 auto;padding:56px 16px 96px}
+.eyebrow{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+.eyebrow .logo{height:22px;width:auto;opacity:.9}
+h1{font:700 clamp(30px,5vw,46px)/1.12 var(--display);letter-spacing:-.025em;margin:18px 0 0;text-wrap:balance}
+.lede{font-size:19px;color:var(--body);margin-top:18px;text-wrap:pretty}
+
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:32px}
+.meta div{background:var(--paper);padding:14px 16px}
+.meta dt{font:500 10.5px/1.4 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.meta dd{margin-top:4px;font-size:15px;line-height:1.5}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:20px}
+.stat{background:var(--ink);color:#f3f1ec;border-radius:14px;padding:18px 18px 16px}
+.stat .n{font:700 34px/1.05 var(--display);letter-spacing:-.02em}
+.stat .n i{font-style:normal;color:var(--signal);margin:0 .12em}
+.stat .k{font-size:14px;color:#c9c6be;margin-top:8px;line-height:1.45}
+
+section{margin-top:64px}
+h2{font:700 24px/1.25 var(--display);letter-spacing:-.01em;margin-top:8px}
+section p,section li{color:var(--body)}
+section p{margin-top:14px}
+section ul{margin:14px 0 0;padding-left:1.1em}
+section li{margin-top:8px}
+section li::marker{color:var(--signal)}
+
+.steps{list-style:none;padding:0;counter-reset:s;margin-top:22px}
+.steps>li{counter-increment:s;position:relative;padding:0 0 26px 52px;margin:0}
+.steps>li::before{content:counter(s,decimal-leading-zero);position:absolute;left:0;top:2px;font:500 12px/1 var(--mono);letter-spacing:.1em;color:var(--signal);border:1px solid var(--signal);border-radius:999px;padding:6px 8px}
+.steps>li:not(:last-child)::after{content:"";position:absolute;left:18px;top:32px;bottom:6px;width:1px;background:var(--line)}
+.steps h3{font:700 18px/1.35 var(--display);color:var(--ink)}
+.steps p{margin-top:6px}
+
+.quote{margin-top:16px;padding:14px 18px;border-left:3px solid var(--signal);background:var(--paper);border-radius:0 10px 10px 0;font-size:16px}
+
+figure{margin-top:22px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px;overflow-x:auto}
+figure svg{display:block;width:100%;min-width:640px;height:auto}
+figcaption{font-size:14px;color:var(--mute);margin-top:12px}
+/* 다이어그램 */
+svg text{font-family:var(--sans);font-size:13px;fill:var(--ink)}
+svg .t-mono{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;fill:var(--mute)}
+svg .t-sm{font-size:11.5px;fill:var(--body)}
+svg .t-b{font-weight:500}
+svg .box{fill:#fff;stroke:rgba(28,29,33,.28);stroke-width:1}
+svg .box.old{fill:#f3e9e4;stroke:#d9a99a}
+svg .box.hot{fill:var(--ink);stroke:var(--ink)}
+svg .box.hot+text,svg text.on-hot{fill:#f3f1ec}
+svg .box.accent{fill:var(--signal-soft);stroke:var(--signal)}
+svg .grp{fill:none;stroke:rgba(28,29,33,.22);stroke-dasharray:4 4}
+svg .arw{stroke:var(--ink);stroke-width:1.4;fill:none;marker-end:url(#ah)}
+svg .arw.mute{stroke:var(--mute);stroke-dasharray:4 3;marker-end:url(#ahm)}
+svg .bad{fill:#b4492f}
+svg .good{fill:var(--good)}
+
+table{width:100%;border-collapse:collapse;margin-top:18px;font-size:15px}
+th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line)}
+th{font:500 10.5px/1.4 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+td.up{color:var(--good);font-weight:500}
+
+.next{margin-top:80px;padding-top:28px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.next .go{font:700 20px/1.3 var(--display);text-decoration:none}
+.next .go:hover{color:var(--signal)}
+.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
