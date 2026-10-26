@@ -279,7 +279,7 @@ html.gl .rack,html.gl .rack-shadow{visibility:hidden}
 .info li strong{color:#e9e6df}
 .nb{white-space:nowrap}
 .info .card.day{color:var(--ink)} .info .card.day p,.info .card.day li{color:#45453f}
-.fmod .ctas{margin-top:18px}
+.fmod .ctas{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
 .info .card .ctas{margin-top:22px;display:flex;gap:10px;flex-wrap:wrap}
 .info h2.kicker{text-transform:uppercase;white-space:nowrap;font-size:clamp(30px,3.15vw,56px);line-height:.95;letter-spacing:-.035em;margin:.3em 0 .4em}
 .flatlist h2.kicker{text-transform:uppercase;white-space:nowrap;font-size:clamp(24px,7.4vw,40px);line-height:.95}
@@ -470,7 +470,12 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
   // 수상 설명 한 줄과 데모 링크
   const awardMore = id => { const l = C[id + '.link'] ? cta(id + '.link') : null; return (C[id + '.desc'] ? `<span class="desc">${md(C[id + '.desc'])}</span>` : '') + (l ? `<a class="demo" href="${l.url}" target="_blank" rel="noopener">${l.label} ↗</a>` : ''); };
   const awardsHTML = (imgs = false) => `<div class="awards"><span class="label">${C['ch.awards']}</span>${imgs ? '<div class="imgs"><img src="img/award-codex.jpg" alt="" loading="lazy"><img src="img/award-nexon.jpg" alt="" loading="lazy"></div>' : ''}<ul>${['award.codex', 'award.nexon'].map(id => `<li>${md(C[id])}${awardMore(id)}</li>`).join('')}</ul></div>`;
-  const linkHTML = id => { if (!C['link.' + id]) return ''; const c = cta('link.' + id); return `<div class="ctas"><a class="btn ghost" href="${c.url}" target="_blank" rel="noopener">${c.label} ↗</a></div>`; };
+  // 케이스 스터디는 같은 창에서 지금 언어로 연다. 바깥 링크는 새 창
+  const linkHTML = id => {
+    const k = C['case.' + id] ? cta('case.' + id) : null, l = C['link.' + id] ? cta('link.' + id) : null;
+    if (!k && !l) return '';
+    return `<div class="ctas">${k ? `<a class="btn" href="${k.url}?lang=${doc.lang}">${k.label} →</a>` : ''}${l ? `<a class="btn ghost" href="${l.url}" target="_blank" rel="noopener">${l.label} ↗</a>` : ''}</div>`;
+  };
   const info = document.getElementById('info');
   const cards = SCENES.map((s, i) => {
     if (s.id === 'in' || s.page || s.pass) return null;
@@ -503,7 +508,7 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
     SCENES.slice(1).filter(s => !s.page).map((s, i) => {
       if (s.id === 'out') { const c = cta('cta.primary'); return `<section class="fmod dark"><span class="led lit"></span><span class="label" style="color:#a7a49c">${C['ch.out']}</span><h2 class="kicker">${md(C['cta.kicker']).split(' / ').join('<br>')}</h2><p class="final" style="color:#cfcbc2;margin:0 0 14px">${md(C['cta.final']).split(' / ').join(' ')}</p><a style="color:#fff;font:700 24px/1.2 var(--display);border-bottom:2px solid var(--signal);text-decoration:none;word-break:break-all" href="${c.url}">${c.url.replace('mailto:', '')}</a>${awardsHTML(true)}</section>`; }
       const [t, b] = s.multi ? ['', C['mod.' + s.id]] : splitTitle(C['mod.' + s.id]);
-      return `<section class="fmod"><span class="led lit"></span><span class="label">${String(i + 1).padStart(2, '0')} · ${C['ch.' + s.id] || ''}</span>${s.logos ? `<div class="logos" aria-hidden="true">${logoHTML(s.logos)}</div>` : ''}<h2>${md(t)}</h2>${bodyHTML(b)}${linkHTML(s.id)}</section>`;
+      return `<section class="fmod" id="m-${s.id}"><span class="led lit"></span><span class="label">${String(i + 1).padStart(2, '0')} · ${C['ch.' + s.id] || ''}</span>${s.logos ? `<div class="logos" aria-hidden="true">${logoHTML(s.logos)}</div>` : ''}<h2>${md(t)}</h2>${bodyHTML(b)}${linkHTML(s.id)}</section>`;
     }).join('');
   document.querySelectorAll('[data-cta]').forEach(a => {
     const c = cta(a.dataset.cta); a.textContent = c.label; a.href = c.url;

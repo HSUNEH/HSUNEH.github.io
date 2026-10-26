@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en" data-title-en="DOSE: drum one-shots by generation — Suntae Hwang" data-title-ko="DOSE: 생성으로 뽑는 드럼 원샷 — 황선태">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DOSE: drum one-shots by generation — Suntae Hwang</title>
+<meta name="description" content="Case study: DOSE generates drum one-shots directly from a music mix instead of separating sources, 8% better FAD than a separation baseline. First-author paper at IEEE ICASSP 2025.">
+<script>try{const q=new URLSearchParams(location.search).get('lang'),s=localStorage.getItem('lang');document.documentElement.lang=(q||s)==='ko'?'ko':'en'}catch{}</script>
+<link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="case.css">
+</head>
+<body>
+<header class="top">
+  <a class="back" data-scene="snu" href="../#m-snu"><span class="en">← Suntae Hwang</span><span class="ko">← 황선태</span></a>
+  <a class="btn" href="mailto:iamsuntae@gmail.com"><span class="en">Email me</span><span class="ko">이메일</span></a>
+  <div class="lang" role="group" aria-label="Language"><a href="?lang=en" data-lang="en" hreflang="en"><span>EN</span></a><a href="?lang=ko" data-lang="ko" hreflang="ko"><span>KO</span></a></div>
+</header>
+
+<main>
+  <div class="eyebrow">
+    <img class="logo" src="../logos/snu.svg" alt="Seoul National University" style="height:30px">
+    <span class="label">2024.03–2025.04 · IEEE ICASSP 2025 · <span class="en">First author</span><span class="ko">1저자</span></span>
+  </div>
+
+  <div class="en">
+    <h1>Drum one-shots by generation, not separation: FAD 8% better than a separation baseline</h1>
+    <p class="lede">DOSE takes a full music mix and generates a single drum hit (a kick, a snare or a hi-hat) directly, with no source separation step. First-author paper at IEEE ICASSP 2025.</p>
+  </div>
+  <div class="ko">
+    <h1>소스 분리 대신 생성으로 드럼 원샷을 추출해 분리 베이스라인보다 FAD 8% 개선</h1>
+    <p class="lede">DOSE는 완성된 음악 믹스에서 킥·스네어·하이햇 한 타(원샷)를 소스 분리 없이 바로 생성해 냅니다. IEEE ICASSP 2025 1저자 논문입니다.</p>
+  </div>
+
+  <dl class="meta">
+    <div><dt><span class="en">Role</span><span class="ko">역할</span></dt><dd><span class="en">First author, with 3 co-authors</span><span class="ko">1저자 (공저자 3명)</span></dd></div>
+    <div><dt><span class="en">Lab</span><span class="ko">소속</span></dt><dd><span class="en">SNU Music and Audio Research Group</span><span class="ko">서울대 음악오디오연구실</span></dd></div>
+    <div><dt><span class="en">Stack</span><span class="ko">기술</span></dt><dd>PyTorch, DAC (neural audio codec), Transformer</dd></div>
+    <div><dt><span class="en">Released</span><span class="ko">공개</span></dt><dd><span class="en">Code, dataset, checkpoints</span><span class="ko">코드·데이터셋·체크포인트</span></dd></div>
+  </dl>
+
+  <div class="stats">
+    <div class="stat"><div class="n">FAD −8%</div><div class="k"><span class="en">Better than the separation baseline (LarsNet)</span><span class="ko">소스 분리 베이스라인(LarsNet) 대비 개선</span></div></div>
+    <div class="stat"><div class="n">1M</div><div class="k"><span class="en">Mixture / one-shot training pairs I built (RMOD)</span><span class="ko">직접 구축한 믹스·원샷 학습 쌍(RMOD)</span></div></div>
+  </div>
+
+  <div class="links">
+    <a class="btn" href="https://ieeexplore.ieee.org/document/10889237" target="_blank" rel="noopener"><span class="en">ICASSP paper ↗</span><span class="ko">ICASSP 논문 ↗</span></a>
+    <a class="btn ghost" href="https://arxiv.org/abs/2504.18157" target="_blank" rel="noopener">arXiv ↗</a>
+    <a class="btn ghost" href="https://github.com/HSUNEH/DOSE" target="_blank" rel="noopener">GitHub ↗</a>
+  </div>
+
+  <section>
+    <span class="label"><span class="en">Architecture</span><span class="ko">구조</span></span>
+    <h2><span class="en">Separate-then-cut vs. generate</span><span class="ko">분리 후 자르기 vs. 생성</span></h2>
+    <figure>
+      <svg viewBox="0 0 760 320" role="img" aria-label="Baseline separates the drum stem and cuts hits; DOSE encodes the mix with DAC, generates one-shot tokens with a Transformer, and decodes them">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#1c1d21"/></marker>
+          <marker id="ahm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#7c776c"/></marker>
+        </defs>
+        <text class="t-mono en" x="20" y="24">BASELINE · SEPARATE, THEN CUT</text>
+        <text class="t-mono ko" x="20" y="24">기존 · 분리한 뒤 자르기</text>
+        <rect class="box" x="20" y="40" width="110" height="46" rx="8"/><text x="75" y="68" text-anchor="middle" class="en">Music mix</text><text x="75" y="68" text-anchor="middle" class="ko">음악 믹스</text>
+        <rect class="box old" x="160" y="40" width="150" height="46" rx="8"/><text x="235" y="68" text-anchor="middle" class="en">Source separation</text><text x="235" y="68" text-anchor="middle" class="ko">소스 분리</text>
+        <rect class="box old" x="340" y="40" width="170" height="46" rx="8"/><text x="425" y="68" text-anchor="middle" class="en">Find and cut each hit</text><text x="425" y="68" text-anchor="middle" class="ko">히트 검출·잘라내기</text>
+        <rect class="box" x="540" y="40" width="110" height="46" rx="8"/><text x="595" y="68" text-anchor="middle" class="en">One-shot</text><text x="595" y="68" text-anchor="middle" class="ko">원샷</text>
+        <path class="arw" d="M130 63H158"/><path class="arw" d="M310 63H338"/><path class="arw" d="M510 63H538"/>
+        <text x="160" y="106" class="t-sm bad en">artifacts, damaged timbre</text><text x="160" y="106" class="t-sm bad ko">아티팩트, 음색 훼손</text>
+        <text x="340" y="106" class="t-sm bad en">extra stage, unreliable boundaries</text><text x="340" y="106" class="t-sm bad ko">후처리 추가, 경계 부정확</text>
+
+        <rect class="grp" x="10" y="126" width="740" height="184" rx="12"/>
+        <text class="t-mono en" x="20" y="150">DOSE · GENERATE DIRECTLY</text>
+        <text class="t-mono ko" x="20" y="150">DOSE · 바로 생성</text>
+        <rect class="box" x="20" y="166" width="110" height="56" rx="8"/><text x="75" y="198" text-anchor="middle" class="en">Music mix</text><text x="75" y="198" text-anchor="middle" class="ko">음악 믹스</text>
+        <rect class="box" x="154" y="166" width="120" height="56" rx="8"/><text x="214" y="189" text-anchor="middle" class="t-b">DAC encoder</text><text x="214" y="207" text-anchor="middle" class="t-sm en">discrete tokens</text><text x="214" y="207" text-anchor="middle" class="t-sm ko">이산 토큰</text>
+        <rect class="box hot" x="298" y="166" width="200" height="56" rx="8"/><text x="398" y="189" text-anchor="middle" class="on-hot t-b">Decoder-only Transformer</text><text x="398" y="207" text-anchor="middle" class="on-hot t-sm en" style="fill:#c9c6be">one per drum: kick · snare · hi-hat</text><text x="398" y="207" text-anchor="middle" class="on-hot t-sm ko" style="fill:#c9c6be">드럼별 모델: 킥 · 스네어 · 하이햇</text>
+        <rect class="box" x="522" y="166" width="110" height="56" rx="8"/><text x="577" y="198" text-anchor="middle" class="t-b">DAC decoder</text>
+        <rect class="box" x="656" y="166" width="84" height="56" rx="8"/><text x="698" y="198" text-anchor="middle" class="en">One-shot</text><text x="698" y="198" text-anchor="middle" class="ko">원샷</text>
+        <path class="arw" d="M130 194H152"/><path class="arw" d="M274 194H296"/><path class="arw" d="M498 194H520"/><path class="arw" d="M632 194H654"/>
+
+        <rect class="box accent" x="298" y="248" width="200" height="46" rx="8"/><text x="398" y="276" text-anchor="middle" class="t-sm en">Onset loss for the attack transient</text><text x="398" y="276" text-anchor="middle" class="t-sm ko">어택 구간을 위한 Onset Loss</text>
+        <path class="arw mute" d="M398 248V224"/>
+        <rect class="box" x="20" y="248" width="254" height="46" rx="8"/><text x="147" y="268" text-anchor="middle" class="t-sm en">RMOD: 1M mix / one-shot pairs</text><text x="147" y="284" text-anchor="middle" class="t-sm en">mixing &amp; mastering simulation</text><text x="147" y="268" text-anchor="middle" class="t-sm ko">RMOD: 믹스·원샷 100만 쌍</text><text x="147" y="284" text-anchor="middle" class="t-sm ko">믹싱·마스터링 시뮬레이션</text>
+        <path class="arw mute" d="M274 271C290 271 290 240 318 224"/>
+      </svg>
+      <figcaption><span class="en">The mix is turned into codec tokens, the Transformer generates the one-shot's tokens autoregressively, and the codec decodes them back to audio. Dashed arrows are training-time only.</span><span class="ko">믹스를 코덱 토큰으로 바꾸고, Transformer가 원샷 토큰을 자기회귀로 생성한 뒤, 코덱이 다시 오디오로 복원합니다. 점선은 학습 때만 쓰입니다.</span></figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <span class="label"><span class="en">Problem</span><span class="ko">문제</span></span>
+    <div class="en">
+      <h2>Separation was the bottleneck</h2>
+      <p>The usual way to get a drum one-shot out of a song is to separate the drum stem, then find and cut individual hits. That approach has three structural limits:</p>
+      <ul>
+        <li>Separation leaves artifacts and damages the original sound.</li>
+        <li>Cutting hits afterwards adds a post-processing stage, makes the pipeline complex, and does not guarantee accurate one-shot boundaries.</li>
+        <li>No dataset paired music mixes with their drum one-shots, so training a model, or even measuring one, was hard.</li>
+      </ul>
+    </div>
+    <div class="ko">
+      <h2>병목은 소스 분리였다</h2>
+      <p>곡에서 드럼 원샷을 얻는 기존 방식은 드럼 스템을 분리한 뒤 개별 히트를 찾아 잘라내는 것입니다. 여기에는 구조적 한계가 세 가지 있었습니다.</p>
+      <ul>
+        <li>분리 과정에서 아티팩트가 생기고 원본 음질이 훼손됩니다.</li>
+        <li>분리 후 히트를 잘라내는 후처리 단계가 붙어 파이프라인이 복잡해지고, 원샷 경계가 정확하다는 보장도 없습니다.</li>
+        <li>음악 믹스와 드럼 원샷이 짝지어진 데이터셋이 없어 모델 학습은 물론 정량 평가 자체가 어려웠습니다.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <span class="label"><span class="en">Solution</span><span class="ko">해결</span></span>
+    <h2><span class="en">What I built</span><span class="ko">만든 것</span></h2>
+    <ol class="steps en">
+      <li><h3>Generate instead of separate</h3><p>A DAC encoder turns the mix into discrete tokens, a decoder-only Transformer generates the one-shot's tokens autoregressively, and the DAC decoder turns them back into audio. One end-to-end pipeline, no separation step.</p></li>
+      <li><h3>One model per drum type</h3><p>Trained a separate Transformer for each drum type: kick, snare and hi-hat.</p></li>
+      <li><h3>An onset loss for the attack</h3><p>Designed an onset loss so the model reproduces the attack transient that defines a drum's timbre. An ablation study confirmed better extraction across every drum type.</p></li>
+      <li><h3>Build the data that didn't exist</h3><p>Built RMOD (Random Mixture One-shot Dataset), 1M mixture and drum one-shot pairs, with a mixing and mastering simulation pipeline for variety.</p></li>
+    </ol>
+    <ol class="steps ko">
+      <li><h3>분리 대신 생성</h3><p>DAC 인코더가 믹스를 이산 토큰으로 바꾸고, Decoder-only Transformer가 원샷 토큰을 자기회귀로 생성하면, DAC 디코더가 이를 오디오로 복원합니다. 분리 단계 없는 엔드투엔드 파이프라인입니다.</p></li>
+      <li><h3>드럼 종류별 모델</h3><p>킥·스네어·하이햇마다 Transformer를 따로 학습했습니다.</p></li>
+      <li><h3>어택을 위한 Onset Loss</h3><p>드럼 음색을 좌우하는 어택 트랜지언트를 재현하도록 Onset Loss를 설계했고, ablation study로 모든 드럼 종류에서 추출 품질이 오르는 것을 확인했습니다.</p></li>
+      <li><h3>없던 데이터를 직접 구축</h3><p>믹스와 드럼 원샷 100만 쌍으로 이루어진 RMOD(Random Mixture One-shot Dataset)를 만들고, 믹싱·마스터링 시뮬레이션 파이프라인으로 데이터 다양성을 확보했습니다.</p></li>
+    </ol>
+  </section>
+
+  <section>
+    <span class="label"><span class="en">Result</span><span class="ko">결과</span></span>
+    <h2><span class="en">Better than separation, and published</span><span class="ko">분리보다 나은 품질, 학회 게재</span></h2>
+    <table>
+      <thead><tr><th><span class="en">Metric</span><span class="ko">지표</span></th><th><span class="en">Baseline</span><span class="ko">비교 대상</span></th><th><span class="en">Change</span><span class="ko">변화</span></th></tr></thead>
+      <tbody>
+        <tr><td>FAD <span class="en">(lower is better)</span><span class="ko">(낮을수록 좋음)</span></td><td><span class="en">Source separation (LarsNet)</span><span class="ko">소스 분리(LarsNet)</span></td><td class="num up"><span class="en">8% better</span><span class="ko">8% 개선</span></td></tr>
+      </tbody>
+    </table>
+    <p class="en">Published at IEEE ICASSP 2025 as first author, with code, dataset and model checkpoints open-sourced. I also measured where training on synthetic data stops generalizing, as a direction for follow-up work. Building a simulation pipeline when no data existed carried straight over to building evaluation pipelines for AI agents later.</p>
+    <p class="ko">IEEE ICASSP 2025에 1저자로 게재했고 코드·데이터셋·모델 체크포인트를 모두 공개했습니다. 합성 데이터 학습의 일반화 한계도 정량 분석해 후속 연구 방향으로 남겼습니다. 데이터가 없을 때 시뮬레이션 파이프라인을 설계한 경험은 이후 AI 에이전트 평가 파이프라인을 만드는 데 그대로 이어졌습니다.</p>
+  </section>
+
+  <nav class="next">
+    <span class="label"><span class="en">Next case</span><span class="ko">다음 사례</span></span>
+    <a class="go" data-case="work-hub.html" href="work-hub.html"><span class="en">From a Slack bot request to a work hub →</span><span class="ko">Slack 봇 요청을 업무 허브로 →</span></a>
+  </nav>
+</main>
+<script src="case.js"></script>
+</body>
+</html>
