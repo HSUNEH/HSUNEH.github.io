@@ -448,7 +448,7 @@ html.flat .chrome{background:var(--wall);border-bottom:1px solid rgba(0,0,0,.06)
     bigjack: () => `<div class="bigjack"><span class="jack"></span></div>`,
   };
   // 로고는 알파만 쓰는 마스크라 패널에선 인쇄 잉크, 카드에선 글자색으로 칠해진다
-  const LOGO = { krafton: 450 / 399.24, hdc: 10.85 / 3.74, naver: 5.21, sony: 5.68, snu: 1570 / 400 };
+  const LOGO = { krafton: 450 / 399.24, hdc: 200 / 32, naver: 5.21, sony: 5.68, snu: 1570 / 400 };
   const logoHTML = ids => ids.map(l => `<i class="logo" style="--src:url(logos/${l}.svg);--ar:${LOGO[l].toFixed(3)}"></i>`).join('');
   const mods = SCENES.slice(1).filter(s => !s.page).map((s, i) => {
     const el = document.createElement('div');
