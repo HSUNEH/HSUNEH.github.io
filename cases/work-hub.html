@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en" data-title-en="From a Slack bot request to a work hub — Suntae Hwang" data-title-ko="Slack 봇 요청을 업무 허브로 — 황선태">
+<html lang="en" data-title-en="Turned a Slack bot request into a work hub and cut coordination time for 33 projects from 120 to 12 hours a year — Suntae Hwang" data-title-ko="발주 정리 봇 요청을 업무 허브로 넓혀 33개 프로젝트의 소통 시간 연 120h → 12h 단축 — 황선태">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>From a Slack bot request to a work hub — Suntae Hwang</title>
-<meta name="description" content="Case study: an FDE asked for a Slack bot found the real problem after intake and built a work hub for an audio team, cutting coordination time from 120 to 12 hours a year.">
+<title>Turned a Slack bot request into a work hub and cut coordination time for 33 projects from 120 to 12 hours a year — Suntae Hwang</title>
+<meta name="description" content="Project details: a Slack bot request became a work hub for an audio team of 22, cutting coordination time across 33 projects from an estimated 120 to 12 hours a year.">
 <script>try{const q=new URLSearchParams(location.search).get('lang'),s=localStorage.getItem('lang');document.documentElement.lang=(q||s)==='ko'?'ko':'en'}catch{}</script>
 <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png">
 <link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
@@ -25,31 +25,11 @@
     <img class="logo" src="../logos/krafton.svg" alt="KRAFTON" style="height:30px">
     <span class="label">2026.06– · Forward Deployed Engineer</span>
   </div>
-
-  <div class="en">
-    <h1>Asked for a Slack bot, built a work hub: coordination time 120 → 12 hours a year</h1>
-    <p class="lede">As an FDE embedded in the audio team, I was asked for a bot that tidies up incoming sound orders. Sitting with the team showed the hard part came after the order arrived, so I built a hub for that whole flow instead. It runs in production today.</p>
-  </div>
-  <div class="ko">
-    <h1>발주 정리 봇 요청을 업무 허브로 다시 정의해 커뮤니케이션 시간 연 120h → 12h</h1>
-    <p class="lede">FDE로 오디오 조직에 들어가 처음 받은 요청은 사운드 발주를 정리해 주는 Slack 봇이었습니다. 현업과 이야기해 보니 정작 어려운 일은 발주를 받은 다음에 있었고, 그 흐름 전체를 다루는 허브를 만들었습니다. 지금 정식 운영 중입니다.</p>
-  </div>
-
-  <dl class="meta">
-    <div><dt><span class="en">Users</span><span class="ko">사용자</span></dt><dd><span class="en">Audio team, 22 people</span><span class="ko">오디오 조직 22명</span></dd></div>
-    <div><dt><span class="en">Scope</span><span class="ko">범위</span></dt><dd><span class="en">15 studios, 33 projects</span><span class="ko">15개 스튜디오, 33개 프로젝트</span></dd></div>
-    <div><dt><span class="en">Stack</span><span class="ko">기술</span></dt><dd>Slack, Jira, LLM, MCP, Claude Code</dd></div>
-    <div><dt><span class="en">Status</span><span class="ko">상태</span></dt><dd><span class="en">In production since 2026.10</span><span class="ko">2026.10부터 정식 운영</span></dd></div>
-  </dl>
-
-  <div class="stats">
-    <div class="stat"><div class="n">120h<i>→</i>12h</div><div class="k"><span class="en">Coordination time per year (estimated)</span><span class="ko">연간 커뮤니케이션 시간(추정)</span></div></div>
-    <div class="stat"><div class="n">2026.10</div><div class="k"><span class="en">In production, maintained together with the team</span><span class="ko">정식 운영 시작, 현업과 함께 유지보수</span></div></div>
-  </div>
+  <h1><span class="en">Turned a Slack bot request into a work hub and cut coordination time for 33 projects from 120 to 12 hours a year</span><span class="ko">발주 정리 봇 요청을 업무 허브로 넓혀 33개 프로젝트의 소통 시간 연 120h → 12h 단축</span></h1>
+  <p class="facts"><span class="en">Audio team of 22 · 15 studios, 33 projects · Slack, Jira, LLM, MCP, Claude Code · in production since 2026.10</span><span class="ko">오디오 조직 22명 · 15개 스튜디오, 33개 프로젝트 · Slack, Jira, LLM, MCP, Claude Code · 2026.10부터 정식 운영</span></p>
 
   <section>
     <span class="label"><span class="en">Architecture</span><span class="ko">구조</span></span>
-    <h2><span class="en">Four tools into one flow</span><span class="ko">네 개의 툴을 하나의 흐름으로</span></h2>
     <figure>
       <svg viewBox="0 0 760 340" role="img" aria-label="Orders scattered across Jira, spreadsheets, Trello and Slack Lists flow into one work hub, with Slack intake, an MCP server and an issue-to-PR bot">
         <defs>
@@ -97,61 +77,55 @@
         <path class="arw" d="M380 289H402"/><path class="arw" d="M554 289H576"/>
         <path class="arw mute" d="M658 264C658 232 520 228 470 202"/>
       </svg>
-      <figcaption><span class="en">Product names and internal screens are left out. Tool names describe the team's setup before the hub.</span><span class="ko">제품명과 사내 화면은 뺐습니다. 왼쪽 툴 이름은 허브 이전 현업의 환경입니다.</span></figcaption>
+      <figcaption><span class="en">Product names and internal screens are left out. The tools on the left are what the team used before the hub.</span><span class="ko">제품명과 사내 화면은 뺐습니다. 왼쪽은 허브를 만들기 전에 현업이 쓰던 툴입니다.</span></figcaption>
     </figure>
   </section>
 
   <section>
-    <span class="label"><span class="en">Problem</span><span class="ko">문제</span></span>
+    <h2><span class="en">Problem</span><span class="ko">문제</span></h2>
     <div class="en">
-      <h2>The request was a bot. The problem was everything after it.</h2>
-      <p>The audio team takes sound orders from 15 studios across 33 projects. Orders and the work that follows them lived in Jira, spreadsheets, Trello and Slack Lists.</p>
-      <p>The request was a Slack bot that tidies up incoming orders. But when I talked with the team, the hard part was what happened after an order arrived: splitting the work and keeping deadlines in view. A bot built exactly to the request would have been one more bot nobody used.</p>
+      <p>The audio team of 22 takes sound orders from 15 studios across 33 projects. Orders, and the work that follows them, were split across Jira, spreadsheets, Trello and Slack Lists. Keeping all of it in sync took an estimated 120 hours of coordination a year.</p>
+      <p>I was first asked for a Slack bot that tidies up incoming orders. Talking it through with the team, I found the harder part came after an order arrived: splitting the work and keeping track of deadlines. A bot built only to the request would have been one more bot nobody used.</p>
     </div>
     <div class="ko">
-      <h2>요청은 봇이었지만, 문제는 그다음에 있었다</h2>
-      <p>오디오 조직 22명은 15개 스튜디오, 33개 프로젝트에서 사운드 발주를 받습니다. 발주와 그 뒤의 업무가 Jira·시트·Trello·Slack List에 흩어져 있었습니다.</p>
-      <p>요청은 발주를 정리해 주는 Slack 봇이었습니다. 그런데 현업과 이야기해 보니 정작 어려운 일은 발주를 받은 뒤 일을 나누고 마감을 챙기는 쪽이었습니다. 요청대로만 만들었다면 쓰이지 않는 봇이 하나 늘었을 것입니다.</p>
+      <p>오디오 조직 22명은 15개 스튜디오에서 33개 프로젝트의 사운드 발주를 받습니다. 발주와 그 뒤의 업무는 Jira, 시트, Trello, Slack List에 나뉘어 있었고 이를 맞추는 커뮤니케이션에 연 120시간 정도가 들었습니다(추정).</p>
+      <p>처음 받은 요청은 발주를 정리해 주는 Slack 봇이었습니다. 현업과 이야기해 보니 정작 어려운 일은 발주를 받은 다음, 일을 나누고 마감을 챙기는 쪽이었습니다. 요청대로 봇만 만들었다면 쓰이지 않는 봇이 하나 더 생겼을 겁니다.</p>
     </div>
   </section>
 
   <section>
-    <span class="label"><span class="en">Solution</span><span class="ko">해결</span></span>
-    <h2><span class="en">What I built, and what I threw away</span><span class="ko">만든 것과 버린 것</span></h2>
-    <ol class="steps en">
-      <li><h3>Redefine the scope</h3><p>Widened the order bot into a hub that covers the flow after intake, from splitting the work to tracking it.</p></li>
-      <li><h3>Connect where the work already happens</h3><p>Synced Jira status per studio, and let people register tasks from Slack, where an LLM drafts the task from the message.</p></li>
-      <li><h3>Turn the team's words into design rules</h3><p>Things the team said became the rules for every screen:</p>
-        <p class="quote">"Don't open a window to change one value."<br>"No confirmation dialog for anything that can be undone."</p></li>
-      <li><h3>Drop what didn't fit</h3><p>I had put real work into a conversational ordering bot. After talking it through with the team, I removed it and rebuilt intake as Slack message shortcuts.</p></li>
-      <li><h3>Keep it moving after launch</h3><p>Added an MCP server so agents can work with tasks. Issues the team leaves become pull requests written by Claude Code, and a person reviews and merges them. Feedback is logged as decision records and applied every day.</p></li>
-    </ol>
-    <ol class="steps ko">
-      <li><h3>범위를 다시 정의</h3><p>발주 정리 봇을, 발주 이후 일을 나누고 챙기는 흐름까지 다루는 허브로 넓혔습니다.</p></li>
-      <li><h3>일하던 자리에 연결</h3><p>스튜디오별 Jira 상태를 동기화하고, Slack 메시지에서 LLM이 일감 초안을 써 주는 등록 방식을 붙였습니다.</p></li>
-      <li><h3>현업의 말을 설계 원칙으로</h3><p>현업과 나눈 말을 그대로 화면 설계 원칙으로 삼았습니다.</p>
-        <p class="quote">"값 하나 고치려고 창을 열지 않는다."<br>"되돌릴 수 있는 일에는 확인창을 띄우지 않는다."</p></li>
-      <li><h3>맞지 않는 건 걷어내기</h3><p>공들여 만든 대화형 발주 봇이 있었지만, 현업과 논의한 뒤 걷어내고 메시지 숏컷 방식으로 다시 만들었습니다.</p></li>
-      <li><h3>출시 뒤에도 계속 굴러가게</h3><p>에이전트가 일감을 다룰 수 있도록 MCP 서버를 붙였습니다. 현업이 남긴 이슈는 Claude Code가 PR로 만들고 사람이 검토해 머지합니다. 피드백은 결정 기록으로 남겨 매일 반영합니다.</p></li>
-    </ol>
+    <h2><span class="en">Solution</span><span class="ko">해결</span></h2>
+    <div class="en">
+      <p>So I widened the bot into a hub that covers what happens after intake, from splitting the work to tracking it. Jira status syncs with the hub per studio. People register tasks straight from a Slack message, and an LLM writes the first draft of the task.</p>
+      <p>The screen rules came from things the team said while we worked:</p>
+      <p class="quote">"Don't open a window to change one value."<br>"No confirmation dialog for anything that can be undone."</p>
+      <p>I had spent real effort on a conversational ordering bot. After discussing it with the team I removed it and rebuilt intake as Slack message shortcuts.</p>
+      <p>To keep the hub moving after launch, I added an MCP server so agents can work with tasks. When the team leaves an issue, Claude Code turns it into a pull request and a person reviews and merges it. Feedback goes into decision records and gets applied every day.</p>
+    </div>
+    <div class="ko">
+      <p>봇 대신 발주를 받은 뒤 일을 나누고 마감을 챙기는 데까지 다루는 허브를 만들었습니다. 스튜디오별 Jira 상태는 허브와 동기화됩니다. Slack 메시지에서 바로 일감을 등록하면 LLM이 초안을 써 줍니다.</p>
+      <p>화면 설계 원칙은 함께 일하며 현업이 한 말에서 가져왔습니다.</p>
+      <p class="quote">"값 하나 고치려고 창을 열지 않는다."<br>"되돌릴 수 있는 일에는 확인창을 띄우지 않는다."</p>
+      <p>공들여 만든 대화형 발주 봇도 있었습니다. 현업과 논의한 끝에 걷어내고 메시지 숏컷 방식으로 다시 만들었습니다.</p>
+      <p>출시 뒤에도 허브가 계속 고쳐지도록 MCP 서버를 붙여 에이전트가 일감을 다룰 수 있게 했습니다. 현업이 이슈를 남기면 Claude Code가 PR을 만들고 사람이 검토해 머지합니다. 피드백은 결정 기록으로 남겨 매일 반영합니다.</p>
+    </div>
   </section>
 
   <section>
-    <span class="label"><span class="en">Result</span><span class="ko">결과</span></span>
-    <h2><span class="en">Less chasing, and a tool the team keeps using</span><span class="ko">덜 쫓아다니고, 계속 쓰이는 도구</span></h2>
-    <table>
-      <thead><tr><th><span class="en">Metric</span><span class="ko">지표</span></th><th><span class="en">Before</span><span class="ko">이전</span></th><th><span class="en">After</span><span class="ko">이후</span></th><th><span class="en">Change</span><span class="ko">변화</span></th></tr></thead>
-      <tbody>
-        <tr><td><span class="en">Coordination time per year (est.)</span><span class="ko">연간 커뮤니케이션 시간(추정)</span></td><td class="num">120h</td><td class="num">12h</td><td class="num up">−90%</td></tr>
-      </tbody>
-    </table>
-    <p class="en">The hub has been in production since October 2026, and I maintain it together with the team. Deciding what to build, and what to throw away, changed the outcome more than any single feature.</p>
-    <p class="ko">2026년 10월부터 정식 운영 중이며 현업과 함께 유지보수하고 있습니다. 어떤 기능보다도 무엇을 만들고 무엇을 버릴지 정한 판단이 결과를 가장 크게 바꿨습니다.</p>
+    <h2><span class="en">Result</span><span class="ko">결과</span></h2>
+    <div class="en">
+      <table><thead><tr><th><span class="en">Metric</span><span class="ko">지표</span></th><th><span class="en">Before</span><span class="ko">이전</span></th><th><span class="en">After</span><span class="ko">이후</span></th><th><span class="en">Change</span><span class="ko">변화</span></th></tr></thead><tbody><tr><td>Coordination time per year (est.)</td><td class="num">120h</td><td class="num">12h</td><td class="num up">−90%</td></tr></tbody></table>
+      <p>The hub has been in production since October 2026, and I maintain it together with the team. Looking back, the decisions about what to build and what to throw away changed the outcome more than any feature did.</p>
+    </div>
+    <div class="ko">
+      <table><thead><tr><th><span class="en">Metric</span><span class="ko">지표</span></th><th><span class="en">Before</span><span class="ko">이전</span></th><th><span class="en">After</span><span class="ko">이후</span></th><th><span class="en">Change</span><span class="ko">변화</span></th></tr></thead><tbody><tr><td>연간 커뮤니케이션 시간(추정)</td><td class="num">120h</td><td class="num">12h</td><td class="num up">−90%</td></tr></tbody></table>
+      <p>2026년 10월부터 정식 운영 중이며 현업과 함께 유지보수하고 있습니다. 돌아보면 무엇을 만들고 무엇을 버릴지 정한 판단이 결과를 가장 크게 바꿨습니다.</p>
+    </div>
   </section>
 
   <nav class="next">
-    <span class="label"><span class="en">Next case</span><span class="ko">다음 사례</span></span>
-    <a class="go" data-case="home-agent.html" href="home-agent.html"><span class="en">One agent instead of four LLM calls →</span><span class="ko">LLM 4회 호출을 단일 에이전트로 →</span></a>
+    <span class="label"><span class="en">Next project</span><span class="ko">다음 프로젝트</span></span>
+    <a class="go" data-case="home-agent.html" href="home-agent.html"><span class="en">Four LLM calls down to one agent →</span><span class="ko">4단계 LLM 호출을 단일 에이전트로 →</span></a>
   </nav>
 </main>
 <script src="case.js"></script>
