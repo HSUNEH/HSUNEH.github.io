@@ -11,6 +11,7 @@ html:lang(ko){word-break:keep-all}
 html:lang(ko) .en,html:lang(en) .ko{display:none}
 body{min-height:100vh}
 a{color:inherit}
+.nb{white-space:nowrap}
 strong{font-weight:500;color:var(--ink)}
 .label{font:500 11px/1.4 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--mute)}
 
