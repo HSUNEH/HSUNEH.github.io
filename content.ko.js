@@ -12,6 +12,7 @@ window.CONTENT_KO = {
  "ch.awards": "수상",
  "award.axwar": "**상위 1%** · AX인재전쟁 Online 1회차 · 삼일PwC 과제, 2026",
  "award.axwar.desc": "참가자 2,916명 중 상위 1%",
+ "award.axwar.link": "인증서 → https://axacademy.ai/axwar/cert/Ap78U8z_u5tOX4TJZj3vMO25",
  "award.codex": "**Field Impact Award** · Codex Impact Workshop, 2026",
  "award.nexon": "**넥슨 트랙 1위** · OBA Weekendthon, 2026",
  "award.codex.desc": "Survey Snap: 스캔한 종이 설문을 100% 정확도로 CSV로 바꿉니다. 코드는 비개발자 팀원이 전부 짰고, 저는 코칭을 맡았습니다.",
