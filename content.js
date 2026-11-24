@@ -10,6 +10,8 @@ window.CONTENT = {
  "ch.out": "Signal out",
  "ch.contact": "Contact",
  "ch.awards": "Awards",
+ "award.axwar": "**Top 1%** · AX Talent War Online, Round 1 · Samil PwC challenge, 2026",
+ "award.axwar.desc": "Top 1% of 2,916 participants",
  "award.codex": "**Field Impact Award** · Codex Impact Workshop, 2026",
  "award.nexon": "**1st Place, Nexon Track** · OBA Weekendthon, 2026",
  "award.codex.desc": "Survey Snap: turns scanned paper surveys into CSV with 100% accuracy. I coached a non-developer teammate who wrote all the code.",
